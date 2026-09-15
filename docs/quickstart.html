@@ -1,0 +1,61 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="color-scheme" content="light dark"><meta name="description" content="Install and use the Evidence-First Work Harness in minutes."><title>Quickstart — EFWH</title><style>
+:root{
+  --bg:#f7f7f5;--surface:rgba(255,255,255,.82);--surface2:#fff;--text:#121212;--muted:#666761;
+  --line:rgba(18,18,18,.10);--line2:rgba(18,18,18,.16);--accent:#0877ff;--accent-soft:#e8f2ff;
+  --good:#0a7a48;--good-soft:#e8f7ef;--shadow:0 22px 70px rgba(20,20,20,.08);--radius:24px;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+@media(prefers-color-scheme:dark){:root{
+  --bg:#090a0b;--surface:rgba(22,23,25,.82);--surface2:#121315;--text:#f6f7f8;--muted:#a4a6a9;
+  --line:rgba(255,255,255,.10);--line2:rgba(255,255,255,.16);--accent:#4ea0ff;--accent-soft:#10294a;
+  --good:#4bd39a;--good-soft:#0c3023;--shadow:0 24px 80px rgba(0,0,0,.34)
+}}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(900px 480px at 75% -10%,rgba(8,119,255,.10),transparent 62%),var(--bg);color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}.wrap{width:min(1120px,calc(100% - 40px));margin:auto}
+nav{height:72px;display:flex;align-items:center;justify-content:space-between;gap:18px}.brand{font-weight:760;letter-spacing:-.025em}.navLinks{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}.pill{font-size:12px;padding:7px 10px;border:1px solid var(--line);border-radius:999px;color:var(--muted);background:var(--surface)}.pill.active{color:var(--text);border-color:var(--line2);background:var(--surface2)}
+.hero{padding:76px 0 58px}.eyebrow{display:inline-flex;gap:8px;align-items:center;font-size:13px;font-weight:650;color:var(--good);background:var(--good-soft);border-radius:999px;padding:7px 11px}.dot{width:7px;height:7px;background:currentColor;border-radius:50%}
+h1{font-size:clamp(46px,7vw,78px);line-height:.98;letter-spacing:-.06em;margin:20px 0 16px;max-width:920px;font-weight:760}.lede{max-width:720px;color:var(--muted);font-size:clamp(17px,2vw,20px);line-height:1.55;letter-spacing:-.012em;margin:0}.heroActions{display:flex;gap:10px;margin-top:26px;flex-wrap:wrap}.btn{display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:14px;padding:12px 16px;font:650 14px var(--sans);cursor:pointer;background:var(--text);color:var(--bg)}.btn.secondary{background:var(--surface);color:var(--text);border:1px solid var(--line2)}
+.card{background:var(--surface);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+.pageGrid{display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:28px;align-items:start;padding:10px 0 76px}.article{padding:38px 42px;min-width:0}.toc{position:sticky;top:20px;padding:20px}.tocTitle{font-size:11px;letter-spacing:.09em;text-transform:uppercase;font-weight:750;color:var(--muted);margin:0 0 12px}.toc a{display:block;font-size:12px;line-height:1.35;color:var(--muted);padding:7px 9px;border-radius:9px}.toc a:hover{background:var(--surface2);color:var(--text)}.toc a.sub{padding-left:20px;font-size:11px}
+.article h1{font-size:42px;letter-spacing:-.045em;line-height:1.05;margin:0 0 10px}.article h2{font-size:28px;line-height:1.16;letter-spacing:-.035em;margin:48px 0 14px;padding-top:5px}.article h3{font-size:19px;line-height:1.25;letter-spacing:-.02em;margin:30px 0 10px}.article p,.article li{font-size:15px;line-height:1.72}.article p{margin:12px 0;color:color-mix(in srgb,var(--text) 88%,var(--muted) 12%)}.article ul,.article ol{padding-left:22px;margin:12px 0}.article li{margin:5px 0}.article strong{font-weight:720}.article hr{border:0;border-top:1px solid var(--line);margin:40px 0}.article a{color:var(--accent);text-decoration:underline;text-decoration-color:color-mix(in srgb,var(--accent) 28%,transparent);text-underline-offset:3px}.article blockquote{margin:20px 0;padding:14px 18px;border-left:3px solid var(--accent);background:var(--accent-soft);border-radius:0 14px 14px 0}.article blockquote p{margin:0}
+pre{position:relative;overflow:auto;background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:17px 18px;margin:17px 0}code{font-family:var(--mono);font-size:.91em;background:color-mix(in srgb,var(--surface2) 72%,var(--accent) 3%);border:1px solid var(--line);border-radius:7px;padding:2px 5px}pre code{font-size:13px;line-height:1.58;background:transparent;border:0;padding:0;color:var(--text)}.copyCode{position:absolute;top:9px;right:9px;border:1px solid var(--line2);border-radius:9px;background:var(--surface2);color:var(--muted);font:650 11px var(--sans);padding:6px 8px;cursor:pointer}.copyCode:hover{color:var(--text)}
+.quickGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0}.quickCard{padding:22px}.quickCard .tag{font:700 11px var(--mono);color:var(--accent);text-transform:uppercase}.quickCard h3{margin:8px 0 8px;font-size:17px}.quickCard p{font-size:13px;color:var(--muted);line-height:1.5;margin:0}.callout{padding:18px 20px;margin:20px 0;background:var(--good-soft);border:1px solid color-mix(in srgb,var(--good) 20%,transparent);border-radius:16px}.callout b{color:var(--good)}
+.sourceMeta{display:flex;align-items:center;gap:9px;flex-wrap:wrap;color:var(--muted);font-size:12px;margin-top:10px}.sourceMeta a{color:var(--muted);text-decoration:none;border-bottom:1px solid var(--line2)}
+.footer{padding:56px 0 38px;text-align:center;color:var(--muted);font-size:12px}.footer strong{color:var(--text)}.sourceLine{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:10px}.sourceLine a{border-bottom:1px solid var(--line2)}.creditTag{display:inline-flex;align-items:center;margin-left:8px;padding:2px 7px;border:1px solid var(--line);border-radius:999px;color:var(--muted);font-size:11px;font-weight:600;letter-spacing:.01em;vertical-align:1px}
+@media(max-width:880px){.pageGrid{grid-template-columns:1fr}.toc{position:relative;top:auto;order:-1}.article{padding:30px 26px}.quickGrid{grid-template-columns:1fr}}
+@media(max-width:580px){.wrap{width:min(100% - 24px,1120px)}nav{height:auto;padding:14px 0;align-items:flex-start}.navLinks{gap:6px}.hero{padding:46px 0 42px}h1{font-size:44px}.article{padding:24px 19px}.pageGrid{gap:14px;padding-bottom:48px}.toc{display:none}.article h2{font-size:25px;margin-top:40px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style></head><body><div class="wrap"><nav><a class="brand" href="./index.html">EFWH</a><div class="navLinks"><a class="pill" href="./index.html">Overview</a><a class="pill active" href="./quickstart.html">Quickstart</a><a class="pill" href="./reasoning.html">Reasoning</a><a class="pill" href="https://github.com/ZacharyThrasher/evidence-first-work-harness" target="_blank" rel="noreferrer">GitHub ↗</a></div></nav><section class="hero"><div class="eyebrow"><span class="dot"></span>About two minutes</div><h1>Install once.<br>Then just <code>/efwh</code>.</h1><p class="lede">The short path from a clean machine to an evidence-first investigation. No project templates or configuration forms required.</p><div class="heroActions"><a class="btn" href="#install-once">Install</a><a class="btn secondary" href="./index.html#start">Build a command</a></div></section><div class="pageGrid"><main class="card article"><h2 id="install-once">Install once</h2>
+<h3 id="windows">Windows</h3>
+<pre><code class="language-powershell">git clone --depth 1 https://github.com/ZacharyThrasher/evidence-first-work-harness.git efwh
+&amp; .\efwh\scripts\install.ps1
+</code></pre>
+<h3 id="macos-linux">macOS / Linux</h3>
+<pre><code class="language-bash">git clone --depth 1 https://github.com/ZacharyThrasher/evidence-first-work-harness.git efwh
+./efwh/scripts/install.sh
+</code></pre>
+<p>The installers copy the canonical Skill into <code>~/.claude/skills/efwh/</code> and refuse to overwrite an existing install unless <code>-Force</code> / <code>--force</code> is supplied.</p>
+<h2 id="use-it">Use it</h2>
+<p>Start Claude Code in the repo, analysis folder, or document workspace where the work should happen:</p>
+<pre><code class="language-text">/efwh &lt;problem in normal language&gt;
+</code></pre>
+<p>Optional controls:</p>
+<pre><code class="language-text">/efwh --autonomy advisory &lt;goal&gt;
+/efwh --autonomy experiment --rigor high &lt;goal&gt;
+/efwh --autonomy builder &lt;goal&gt;
+/efwh --autonomy sandbox --rigor high &lt;goal&gt;
+/efwh --resume
+/efwh --status
+</code></pre>
+<p>No GOAL/config file editing is required. EFWH writes its durable project state under <code>.efwh/</code>.</p>
+<p>For company-managed deployment, see <a href="https://github.com/ZacharyThrasher/evidence-first-work-harness/blob/main/reference/company-rollout.md" target="_blank" rel="noreferrer"><code>docs/company-rollout.md</code></a>.</p>
+<div class="callout"><b>That’s the workflow.</b> Start Claude Code in the workspace where the evidence lives, type <code>/efwh &lt;problem&gt;</code>, and let EFWH orient before it acts.</div><div class="sourceMeta">Source of truth: <a href="https://github.com/ZacharyThrasher/evidence-first-work-harness/blob/main/QUICKSTART.md" target="_blank" rel="noreferrer">QUICKSTART.md ↗</a></div></main><aside class="card toc"><div class="tocTitle">On this page</div><a class="" href="#install-once">Install once</a><a class="sub" href="#windows">Windows</a><a class="sub" href="#macos-linux">macOS / Linux</a><a class="" href="#use-it">Use it</a></aside></div><footer class="footer"><strong>EFWH v2.1</strong><span class="creditTag">Created by Zach Thrasher</span><div class="sourceLine"><a href="./index.html">Overview</a><span>·</span><a href="./quickstart.html">Quickstart</a><span>·</span><a href="./reasoning.html">Reasoning</a><span>·</span><a href="https://github.com/ZacharyThrasher/evidence-first-work-harness" target="_blank" rel="noreferrer">Source ↗</a></div></footer></div>
+<script>
+document.querySelectorAll('pre').forEach((pre)=>{
+  const b=document.createElement('button'); b.className='copyCode'; b.type='button'; b.textContent='Copy';
+  b.addEventListener('click', async()=>{try{await navigator.clipboard.writeText(pre.innerText.replace(/^Copy\\n/,'')); b.textContent='Copied'; setTimeout(()=>b.textContent='Copy',1200)}catch(e){b.textContent='Select + copy'}});
+  pre.appendChild(b);
+});
+</script>
+</body></html>

@@ -1,0 +1,3 @@
+## Evidence-First Work Harness
+
+For substantial research, investigation, implementation, or analysis tasks in this workspace, use the Evidence-First Work Harness under `harness/` unless the user explicitly says otherwise. Begin with `harness/START_HERE.md`, `GOAL.md`, `CONFIG.yaml`, and `OPERATING_CONTRACT.md`. Perform the environment-orientation phase before assuming which internal tools/sources are available. Obey `policies/HARD_GATES.md` and persist durable state outside chat.

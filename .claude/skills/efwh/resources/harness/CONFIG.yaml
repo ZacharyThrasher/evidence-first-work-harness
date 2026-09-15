@@ -1,0 +1,55 @@
+version: 1
+
+project:
+  name: ""
+  domain: "auto"   # auto | software | data | research | operations | science | other
+
+agent:
+  preferred_model: "Claude Sonnet 5 or equivalent"
+  multi_agent: "auto"   # off | auto | allowed
+
+# Autonomy controls what the agent may do without a human checkpoint.
+autonomy:
+  level: "L1_GUIDED_RESEARCH"
+  orientation_depth: "standard"   # minimal | standard | deep
+  may_use_web: true
+  may_use_internal_connectors: true
+  may_write_harness_artifacts: true
+  may_modify_work_product: false
+  may_execute_reversible_sandbox_tests: false
+  may_run_read_only_data_queries: false
+  may_create_isolated_worktree_or_copy: false
+
+# Rigor controls the proof burden, independently of autonomy.
+rigor:
+  level: "R1_STANDARD"
+  require_claim_provenance: true
+  require_predeclared_acceptance: true
+  require_independent_evaluator: false
+  require_multiple_trials_for_nondeterminism: false
+  require_sme_review_for_key_conclusions: false
+
+sources:
+  prefer_authoritative_internal_sources: true
+  prefer_primary_external_sources: true
+  allow_secondary_sources: true
+  record_retrieval_dates: true
+
+security:
+  data_classification: "inherit_from_workspace"
+  external_egress_for_sensitive_data: "deny"
+  secret_values_in_logs: "deny"
+  production_writes: "human_gate"
+  external_communications: "human_gate"
+  destructive_actions: "human_gate"
+  privileged_or_admin_actions: "human_gate"
+  credential_or_secret_access: "human_gate"
+
+budgets:
+  max_repeat_attempts_same_hypothesis: 2
+  max_unreviewed_experiment_chain: 5
+  stop_on_material_scope_change: true
+
+terminal_policy:
+  exhausted_requires_candidate_registry_closed: true
+  completed_requires_acceptance_evidence: true

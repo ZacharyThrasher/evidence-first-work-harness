@@ -1,0 +1,298 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="color-scheme" content="light dark"><meta name="description" content="The design rationale and research behind the Evidence-First Work Harness."><title>Reasoning — EFWH</title><style>
+:root{
+  --bg:#f7f7f5;--surface:rgba(255,255,255,.82);--surface2:#fff;--text:#121212;--muted:#666761;
+  --line:rgba(18,18,18,.10);--line2:rgba(18,18,18,.16);--accent:#0877ff;--accent-soft:#e8f2ff;
+  --good:#0a7a48;--good-soft:#e8f7ef;--shadow:0 22px 70px rgba(20,20,20,.08);--radius:24px;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+@media(prefers-color-scheme:dark){:root{
+  --bg:#090a0b;--surface:rgba(22,23,25,.82);--surface2:#121315;--text:#f6f7f8;--muted:#a4a6a9;
+  --line:rgba(255,255,255,.10);--line2:rgba(255,255,255,.16);--accent:#4ea0ff;--accent-soft:#10294a;
+  --good:#4bd39a;--good-soft:#0c3023;--shadow:0 24px 80px rgba(0,0,0,.34)
+}}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(900px 480px at 75% -10%,rgba(8,119,255,.10),transparent 62%),var(--bg);color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}.wrap{width:min(1120px,calc(100% - 40px));margin:auto}
+nav{height:72px;display:flex;align-items:center;justify-content:space-between;gap:18px}.brand{font-weight:760;letter-spacing:-.025em}.navLinks{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}.pill{font-size:12px;padding:7px 10px;border:1px solid var(--line);border-radius:999px;color:var(--muted);background:var(--surface)}.pill.active{color:var(--text);border-color:var(--line2);background:var(--surface2)}
+.hero{padding:76px 0 58px}.eyebrow{display:inline-flex;gap:8px;align-items:center;font-size:13px;font-weight:650;color:var(--good);background:var(--good-soft);border-radius:999px;padding:7px 11px}.dot{width:7px;height:7px;background:currentColor;border-radius:50%}
+h1{font-size:clamp(46px,7vw,78px);line-height:.98;letter-spacing:-.06em;margin:20px 0 16px;max-width:920px;font-weight:760}.lede{max-width:720px;color:var(--muted);font-size:clamp(17px,2vw,20px);line-height:1.55;letter-spacing:-.012em;margin:0}.heroActions{display:flex;gap:10px;margin-top:26px;flex-wrap:wrap}.btn{display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:14px;padding:12px 16px;font:650 14px var(--sans);cursor:pointer;background:var(--text);color:var(--bg)}.btn.secondary{background:var(--surface);color:var(--text);border:1px solid var(--line2)}
+.card{background:var(--surface);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+.pageGrid{display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:28px;align-items:start;padding:10px 0 76px}.article{padding:38px 42px;min-width:0}.toc{position:sticky;top:20px;padding:20px}.tocTitle{font-size:11px;letter-spacing:.09em;text-transform:uppercase;font-weight:750;color:var(--muted);margin:0 0 12px}.toc a{display:block;font-size:12px;line-height:1.35;color:var(--muted);padding:7px 9px;border-radius:9px}.toc a:hover{background:var(--surface2);color:var(--text)}.toc a.sub{padding-left:20px;font-size:11px}
+.article h1{font-size:42px;letter-spacing:-.045em;line-height:1.05;margin:0 0 10px}.article h2{font-size:28px;line-height:1.16;letter-spacing:-.035em;margin:48px 0 14px;padding-top:5px}.article h3{font-size:19px;line-height:1.25;letter-spacing:-.02em;margin:30px 0 10px}.article p,.article li{font-size:15px;line-height:1.72}.article p{margin:12px 0;color:color-mix(in srgb,var(--text) 88%,var(--muted) 12%)}.article ul,.article ol{padding-left:22px;margin:12px 0}.article li{margin:5px 0}.article strong{font-weight:720}.article hr{border:0;border-top:1px solid var(--line);margin:40px 0}.article a{color:var(--accent);text-decoration:underline;text-decoration-color:color-mix(in srgb,var(--accent) 28%,transparent);text-underline-offset:3px}.article blockquote{margin:20px 0;padding:14px 18px;border-left:3px solid var(--accent);background:var(--accent-soft);border-radius:0 14px 14px 0}.article blockquote p{margin:0}
+pre{position:relative;overflow:auto;background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:17px 18px;margin:17px 0}code{font-family:var(--mono);font-size:.91em;background:color-mix(in srgb,var(--surface2) 72%,var(--accent) 3%);border:1px solid var(--line);border-radius:7px;padding:2px 5px}pre code{font-size:13px;line-height:1.58;background:transparent;border:0;padding:0;color:var(--text)}.copyCode{position:absolute;top:9px;right:9px;border:1px solid var(--line2);border-radius:9px;background:var(--surface2);color:var(--muted);font:650 11px var(--sans);padding:6px 8px;cursor:pointer}.copyCode:hover{color:var(--text)}
+.quickGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0}.quickCard{padding:22px}.quickCard .tag{font:700 11px var(--mono);color:var(--accent);text-transform:uppercase}.quickCard h3{margin:8px 0 8px;font-size:17px}.quickCard p{font-size:13px;color:var(--muted);line-height:1.5;margin:0}.callout{padding:18px 20px;margin:20px 0;background:var(--good-soft);border:1px solid color-mix(in srgb,var(--good) 20%,transparent);border-radius:16px}.callout b{color:var(--good)}
+.sourceMeta{display:flex;align-items:center;gap:9px;flex-wrap:wrap;color:var(--muted);font-size:12px;margin-top:10px}.sourceMeta a{color:var(--muted);text-decoration:none;border-bottom:1px solid var(--line2)}
+.footer{padding:56px 0 38px;text-align:center;color:var(--muted);font-size:12px}.footer strong{color:var(--text)}.sourceLine{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:10px}.sourceLine a{border-bottom:1px solid var(--line2)}.creditTag{display:inline-flex;align-items:center;margin-left:8px;padding:2px 7px;border:1px solid var(--line);border-radius:999px;color:var(--muted);font-size:11px;font-weight:600;letter-spacing:.01em;vertical-align:1px}
+@media(max-width:880px){.pageGrid{grid-template-columns:1fr}.toc{position:relative;top:auto;order:-1}.article{padding:30px 26px}.quickGrid{grid-template-columns:1fr}}
+@media(max-width:580px){.wrap{width:min(100% - 24px,1120px)}nav{height:auto;padding:14px 0;align-items:flex-start}.navLinks{gap:6px}.hero{padding:46px 0 42px}h1{font-size:44px}.article{padding:24px 19px}.pageGrid{gap:14px;padding-bottom:48px}.toc{display:none}.article h2{font-size:25px;margin-top:40px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style></head><body><div class="wrap"><nav><a class="brand" href="./index.html">EFWH</a><div class="navLinks"><a class="pill" href="./index.html">Overview</a><a class="pill" href="./quickstart.html">Quickstart</a><a class="pill active" href="./reasoning.html">Reasoning</a><a class="pill" href="https://github.com/ZacharyThrasher/evidence-first-work-harness" target="_blank" rel="noreferrer">GitHub ↗</a></div></nav><section class="hero"><div class="eyebrow"><span class="dot"></span>Design rationale + research</div><h1>Why EFWH is structured this way.</h1><p class="lede">A compact audit trail for the choices behind orientation, evidence classification, human gates, durable state, evals, autonomy, and scoped conclusions.</p><div class="heroActions"><a class="btn" href="#executive-rationale">Read the rationale</a><a class="btn secondary" href="#research-basis-reading-list">Jump to sources</a></div></section><div class="pageGrid"><main class="card article"><p><strong>Version:</strong> 2.1.0<br />
+<strong>Research refresh:</strong> 2026-09-14<br />
+<strong>Purpose:</strong> explain the design independently of the harness itself, so teams can challenge or simplify the framework instead of treating scaffolding as doctrine.</p>
+<h2 id="executive-rationale">Executive rationale</h2>
+<p>The central design choice is to treat an AI model less like a one-shot oracle and more like a capable but fallible engineer/researcher working across shifts. The useful unit is not the chat transcript. It is a <strong>workspace containing explicit goals, evidence, hypotheses, decisions, tests, state, and handoff artifacts</strong>.</p>
+<p>That conclusion is now supported by several converging bodies of practice:</p>
+<ol>
+<li>Anthropic's long-running-agent work found that models lose continuity across context windows, try to do too much at once, and can prematurely declare work complete. Their effective harness used an initializer, incremental progress, structured artifacts, machine-readable feature state, Git, and explicit end-to-end tests. In 2026 Anthropic extended this into planner/generator/evaluator architectures and emphasized that structured handoffs and task decomposition are load-bearing on hard problems.</li>
+<li>Anthropic's context-engineering work frames context as a scarce resource with diminishing value. Persisting high-signal artifacts and reloading only relevant pieces is therefore preferable to carrying an ever-growing conversational history.</li>
+<li>Anthropic's evaluator research found generator self-evaluation to be systematically lenient. Separating generation from evaluation, and defining concrete grading criteria before execution, improved outcomes. Their 2026 harness introduced a “contract” for what done means before work began.</li>
+<li>OpenAI and Anthropic both emphasize eval-driven development for agents. Agent outputs are nondeterministic; useful evaluation therefore looks at the <strong>actual outcome/environment state</strong>, often across multiple trials, rather than trusting the model's claim that it succeeded.</li>
+<li>Recent data-agent practice shows that reliable analysis needs access control, links back to raw results, domain context beyond schemas, and continuous regression-style evals. This supports treating production-data analysis as the same general research→experiment→evidence loop, not as a special case.</li>
+<li>Security guidance from Anthropic, NIST, and OWASP converges on least privilege, hard environmental boundaries, human oversight for high-impact actions, and distrust of external content as instructions. Increasing autonomy should therefore primarily mean expanding a <strong>bounded execution envelope</strong>, not simply suppressing permission prompts.</li>
+<li>Research-agent benchmarks such as PaperBench and AutoExperiment demonstrate that long-horizon replication remains difficult and that performance falls as more of the work must be reconstructed. This argues for decomposition, repeatable experiments, rubrics, multiple attempts when justified, and preserved failure evidence.</li>
+<li>OpenAI's 2026 audit of coding benchmarks is an important counterweight: even evaluation suites themselves can be wrong. The harness therefore forbids “passing the eval at all costs”; suspected bad acceptance criteria become an <code>EVAL_DEFECT</code> that must be reviewed rather than silently edited.</li>
+</ol>
+<p>The framework is intentionally <strong>model-agnostic and file-based</strong>. Claude-specific integration is optional. Anthropic's Agent Skills work similarly emphasizes portable folders of instructions/resources with progressive disclosure, while also warning that harness assumptions should be revisited as models improve.</p>
+<hr />
+<h2 id="design-principle-1-orient-to-the-actual-environment-before-researching">Design principle 1 — Orient to the actual environment before researching</h2>
+<p>A weaker model with excellent access to internal artifacts can outperform a stronger model that does not know those artifacts exist. The first operation is therefore an explicit, mostly read-only <strong>capability orientation</strong>.</p>
+<p>The agent inventories:</p>
+<ul>
+<li>repository/workspace contents and version-control state;</li>
+<li>local runtimes and test environments;</li>
+<li>internal document/search systems such as Confluence;</li>
+<li>MCP servers and connector/tool surfaces;</li>
+<li>data warehouses/databases and their effective permissions;</li>
+<li>APIs and service documentation;</li>
+<li>browser/web access;</li>
+<li>sandboxes/staging environments;</li>
+<li>domain experts and required human actions;</li>
+<li>security/data-classification boundaries.</li>
+</ul>
+<p>The inventory is not “collect everything.” It is a map of <strong>what exists, what it is good for, what permissions it has, and what risks it carries</strong>. Anthropic's tool-design guidance specifically notes that too many overlapping tools can confuse agents; the orientation phase should therefore produce a short recommended tool/source set for the current goal, not flood context with every available interface.</p>
+<p>The model must not dump secret values merely to prove it can see them. Capability discovery should inspect names/scopes/metadata and perform minimal read-only probes.</p>
+<hr />
+<h2 id="design-principle-2-separate-instruction-trust-from-evidentiary-authority">Design principle 2 — Separate instruction trust from evidentiary authority</h2>
+<p>A Confluence page can be authoritative evidence about an internal process while still being <strong>untrusted as an instruction source</strong> to the agent. A public vendor manual can be strong technical evidence while containing text that should never override the user's goal. A tool result can be correct data and still contain prompt injection.</p>
+<p>The harness therefore tracks two independent axes:</p>
+<ul>
+<li><strong>Instruction trust:</strong> may this source direct agent behavior?</li>
+<li><strong>Evidence authority:</strong> how much weight should its factual content carry for this claim?</li>
+</ul>
+<p>This prevents a common conceptual error: calling a source “trusted” and accidentally granting both epistemic authority and execution authority.</p>
+<p>Anthropic's 2026 containment work and OWASP agent-security guidance both treat tool/file/web content as an attack surface and recommend least privilege and deterministic boundaries outside the model.</p>
+<hr />
+<h2 id="design-principle-3-the-wiki-is-a-synthesis-layer-not-a-truth-store">Design principle 3 — The wiki is a synthesis layer, not a truth store</h2>
+<p>A wiki page is useful because it compresses scattered research into a form the next session can load quickly. It becomes dangerous when prose loses the provenance and scope of the evidence that produced it.</p>
+<p>The harness therefore uses explicit claim states:</p>
+<ul>
+<li><code>OBSERVED</code> — directly measured in the current environment;</li>
+<li><code>DOCUMENTED</code> — supported by a cited authoritative source;</li>
+<li><code>INFERRED</code> — reasoned from evidence but not directly established;</li>
+<li><code>HYPOTHESIS</code> — a testable possibility;</li>
+<li><code>DISPROVEN</code> — contradicted within a stated scope;</li>
+<li><code>SUPERSEDED</code> — replaced by stronger/newer evidence.</li>
+</ul>
+<p>Wiki claims link to evidence IDs. Failed experiments remain available. Contradictions are first-class artifacts rather than awkward prose to hide.</p>
+<p>This is the generalized lesson from the Bluetooth PAN investigation: “this specific raw socket call fails” is evidence about that path; it is not evidence that the hardware cannot perform Bluetooth PAN when the operating system demonstrably does so.</p>
+<hr />
+<h2 id="design-principle-4-define-done-before-acting">Design principle 4 — Define “done” before acting</h2>
+<p>The model should not be allowed to perform work and then invent a success criterion that matches what it happened to produce.</p>
+<p>Each meaningful task has a <strong>task contract</strong> written before execution:</p>
+<ul>
+<li>intended outcome;</li>
+<li>scope/non-goals;</li>
+<li>allowed actions;</li>
+<li>expected evidence;</li>
+<li>acceptance criteria;</li>
+<li>evaluation method;</li>
+<li>rollback/recovery path;</li>
+<li>human-gate conditions.</li>
+</ul>
+<p>Anthropic's March 2026 long-running application harness used a generator/evaluator contract before each sprint for this reason. OpenAI's eval guidance likewise frames evaluation as <code>Specify → Measure → Improve</code>.</p>
+<p>For high-rigor work, acceptance criteria are locked after execution starts. If they were flawed, log an <code>EVAL_DEFECT</code>; do not rewrite history.</p>
+<hr />
+<h2 id="design-principle-5-evaluate-the-outcome-not-the-agent-s-story">Design principle 5 — Evaluate the outcome, not the agent's story</h2>
+<p>Agents can say “done” when the environment says otherwise. Anthropic's eval terminology explicitly distinguishes a transcript from the final outcome. A flight agent saying it booked a flight is not evidence that a reservation exists; the database state is.</p>
+<p>The harness prefers evaluators in this order:</p>
+<ol>
+<li>deterministic/environment checks;</li>
+<li>independent model evaluator using a fresh context and explicit rubric;</li>
+<li>human/SME review where judgment matters.</li>
+</ol>
+<p>A single task can combine all three. Subjective tasks should still turn taste/quality into concrete criteria where possible. The evaluator should not receive the generator's persuasive self-justification unless that rationale is itself part of what is being graded.</p>
+<p>For nondeterministic or high-value tasks, multiple trials can be appropriate. Anthropic's eval guidance explicitly treats attempts as trials and recommends multiple trials to obtain stable results.</p>
+<hr />
+<h2 id="design-principle-6-autonomy-and-rigor-are-separate-dimensions">Design principle 6 — Autonomy and rigor are separate dimensions</h2>
+<p>The team needs more nuance than “manual” versus “fully autonomous.” A model can have broad freedom inside a disposable sandbox while facing very strict evidence requirements. Conversely, a human can manually approve every action while doing only lightweight exploratory analysis.</p>
+<p>The harness therefore exposes:</p>
+<h3 id="autonomy">Autonomy</h3>
+<ul>
+<li><code>L0_ADVISORY</code></li>
+<li><code>L1_GUIDED_RESEARCH</code></li>
+<li><code>L2_BOUNDED_EXPERIMENT</code></li>
+<li><code>L3_BOUNDED_BUILDER</code></li>
+<li><code>L4_AUTONOMOUS_SANDBOX</code></li>
+</ul>
+<h3 id="rigor">Rigor</h3>
+<ul>
+<li><code>R0_EXPLORATORY</code></li>
+<li><code>R1_STANDARD</code></li>
+<li><code>R2_HIGH_ASSURANCE</code></li>
+<li><code>R3_ORG_CRITICAL</code></li>
+</ul>
+<p>Hard gates override all autonomy levels.</p>
+<p>This approach is motivated by Anthropic's 2026 finding that repeated permission prompts create approval fatigue (their telemetry showed users approving roughly 93% of prompts) and that containment can be a stronger control than asking a human to approve every low-level action. The framework therefore favors preapproved boundaries plus meaningful gates rather than endless “yes/no” prompts.</p>
+<hr />
+<h2 id="design-principle-7-default-to-one-agent-specialize-only-when-the-task-justifies-it">Design principle 7 — Default to one agent; specialize only when the task justifies it</h2>
+<p>The harness can be run by a single Sonnet session. Multi-agent orchestration is optional.</p>
+<p>Anthropic's research system showed large gains from parallel agents on breadth-heavy research, but at high token cost; their reported multi-agent research workload used roughly 15× the tokens of ordinary chat. Their broader agent guidance recommends the simplest effective architecture.</p>
+<p>So the default policy is:</p>
+<ul>
+<li>use one agent for tightly coupled work;</li>
+<li>use parallel research agents when branches are genuinely independent and breadth matters;</li>
+<li>use a separate evaluator when the task is hard enough that self-grading is risky;</li>
+<li>add specialized planners/evaluators only if traces or evals show they add value.</li>
+</ul>
+<p>The harness includes a model-upgrade review specifically to delete scaffolding that is no longer load-bearing.</p>
+<hr />
+<h2 id="design-principle-8-preserve-state-outside-the-conversation">Design principle 8 — Preserve state outside the conversation</h2>
+<p>Long-running work must survive:</p>
+<ul>
+<li>context compaction;</li>
+<li>a new Sonnet session;</li>
+<li>a model upgrade;</li>
+<li>a coworker taking over;</li>
+<li>the original researcher being unavailable.</li>
+</ul>
+<p>The durable minimum is:</p>
+<ul>
+<li><code>GOAL.md</code> — why the work exists;</li>
+<li><code>STATE.json</code> — machine-readable current position;</li>
+<li><code>tasks/CURRENT.md</code> — immediate work contract;</li>
+<li><code>candidates/registry.json</code> — alternatives and their actual status;</li>
+<li><code>evidence/index.json</code> — provenance map;</li>
+<li><code>wiki/</code> — high-signal synthesis;</li>
+<li><code>runs/</code> — session handoffs and traces/summaries;</li>
+<li><code>decisions/</code> — why important choices were made;</li>
+<li><code>evals/</code> — what success means and whether it passed.</li>
+</ul>
+<p>Anthropic's long-running-agent work found this handoff pattern essential across context windows and observed that JSON was harder for agents to casually rewrite than free-form Markdown for machine state. This harness uses JSON for state/registries and Markdown for human-readable reasoning.</p>
+<hr />
+<h2 id="design-principle-9-exhausted-must-be-scoped-and-earned">Design principle 9 — “Exhausted” must be scoped and earned</h2>
+<p>Agents are prone to turning one blocked path into a global impossibility statement. The harness therefore treats alternatives as a registry and makes terminal claims depend on that registry.</p>
+<p>A candidate can be:</p>
+<p><code>UNEXPLORED</code>, <code>RESEARCHING</code>, <code>ACTIVE</code>, <code>PROMISING</code>, <code>BLOCKED</code>, <code>RULED_OUT</code>, <code>SELECTED</code>, <code>SUPERSEDED</code>, or <code>NOT_APPLICABLE</code>.</p>
+<p><code>EXHAUSTED</code> is invalid while a materially relevant candidate is merely unexplored, researching, active, promising, or blocked on an obtainable human action. Every ruled-out candidate must identify the exact scope of the negative evidence.</p>
+<p>This is an engineering discipline rather than an AI-specific trick: preserve falsifiability and do not over-generalize from a failed test.</p>
+<hr />
+<h2 id="design-principle-10-non-code-work-uses-the-same-loop-different-containment">Design principle 10 — Non-code work uses the same loop, different containment</h2>
+<p>The same architecture fits production-data analysis:</p>
+<ul>
+<li>orientation maps warehouses, semantic layers, lineage/code, dashboards, permissions, and source-of-truth tables;</li>
+<li>research builds a data/domain wiki;</li>
+<li>candidate hypotheses are explicit;</li>
+<li>experiments are read-only queries or analysis scripts against snapshots;</li>
+<li>evidence captures query text, data freshness, row counts, result artifacts, assumptions, and provenance;</li>
+<li>evals compare results against known answers, reconciliation totals, invariants, or SME checks;</li>
+<li>production writes/exports remain hard-gated.</li>
+</ul>
+<p>OpenAI's in-house data-agent write-up supports several of these choices: pass-through permissions, raw-result inspectability, continuous evals, fewer non-overlapping tools, and mining pipeline code for business meaning that schemas alone omit.</p>
+<p>For pure document research, the “experiment” can be a targeted search, contradiction check, source triangulation, or calculation. For operations work, it can be a dry run or a simulation. The state/evidence/evaluation discipline remains the same.</p>
+<hr />
+<h2 id="known-limitations">Known limitations</h2>
+<p>This harness does not make a weak model infallible. It changes the failure surface:</p>
+<ul>
+<li>it makes unsupported claims easier to detect;</li>
+<li>it reduces context-loss damage;</li>
+<li>it makes negative conclusions more scoped;</li>
+<li>it constrains actions;</li>
+<li>it turns success into something testable;</li>
+<li>it makes a project inspectable by another human or model.</li>
+</ul>
+<p>It also adds overhead. On trivial work, do not use the full harness. <code>R0</code> exists for this reason. Anthropic's 2026 harness work explicitly recommends removing components when stronger models no longer need them.</p>
+<p>Evaluation can also fail. Model graders require calibration, deterministic tests can be brittle, and human reviewers can disagree. The framework therefore supports mixed graders and a first-class <code>EVAL_DEFECT</code> path.</p>
+<p>Finally, organizational security policy supersedes this framework. <code>R3_ORG_CRITICAL</code> is intentionally incomplete: regulated or safety-critical teams must layer their own approval, audit, retention, and validation requirements on top.</p>
+<hr />
+<h2 id="research-basis-reading-list">Research basis / reading list</h2>
+<p>Primary and high-value sources consulted for this design:</p>
+<ol>
+<li>Anthropic, <strong>Building effective agents</strong> (2024-12-19)<br />
+<a href="https://www.anthropic.com/engineering/building-effective-agents" target="_blank" rel="noreferrer">https://www.anthropic.com/engineering/building-effective-agents</a></li>
+<li>Anthropic, <strong>How we built our multi-agent research system</strong> (2025-06-13)<br />
+<a href="https://www.anthropic.com/engineering/multi-agent-research-system" target="_blank" rel="noreferrer">https://www.anthropic.com/engineering/multi-agent-research-system</a></li>
+<li>Anthropic, <strong>Writing effective tools for AI agents — using AI agents</strong> (2025-09-11)<br />
+<a href="https://www.anthropic.com/engineering/writing-tools-for-agents" target="_blank" rel="noreferrer">https://www.anthropic.com/engineering/writing-tools-for-agents</a></li>
+<li>Anthropic, <strong>Effective context engineering for AI agents</strong> (2025-09-29)<br />
+<a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" target="_blank" rel="noreferrer">https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents</a></li>
+<li>Anthropic, <strong>Equipping agents for the real world with Agent Skills</strong> (2025-10-16; portability update 2025-12-18)<br />
+<a href="https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills" target="_blank" rel="noreferrer">https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills</a></li>
+<li>Anthropic, <strong>Effective harnesses for long-running agents</strong> (2025-11-26)<br />
+<a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents" target="_blank" rel="noreferrer">https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents</a></li>
+<li>Anthropic, <strong>Demystifying evals for AI agents</strong> (2026-01-09)<br />
+<a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" target="_blank" rel="noreferrer">https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents</a></li>
+<li>Anthropic, <strong>Harness design for long-running application development</strong> (2026-03-24)<br />
+<a href="https://www.anthropic.com/engineering/harness-design-long-running-apps" target="_blank" rel="noreferrer">https://www.anthropic.com/engineering/harness-design-long-running-apps</a></li>
+<li>Anthropic, <strong>How we built Claude Code auto mode: a safer way to skip permissions</strong> (2026-03-25)<br />
+<a href="https://www.anthropic.com/engineering/claude-code-auto-mode" target="_blank" rel="noreferrer">https://www.anthropic.com/engineering/claude-code-auto-mode</a></li>
+<li>Anthropic, <strong>Scaling Managed Agents: Decoupling the brain from the hands</strong> (2026-04-08)<br />
+<a href="https://www.anthropic.com/engineering/managed-agents" target="_blank" rel="noreferrer">https://www.anthropic.com/engineering/managed-agents</a></li>
+<li>Anthropic, <strong>How we contain Claude across products</strong> (2026-05-25)<br />
+<a href="https://www.anthropic.com/engineering/how-we-contain-claude" target="_blank" rel="noreferrer">https://www.anthropic.com/engineering/how-we-contain-claude</a></li>
+<li>Anthropic Claude Cookbook, <strong>Context engineering: memory, compaction, and tool clearing</strong> (2026-03-20)<br />
+<a href="https://platform.claude.com/cookbook/tool-use-context-engineering-context-engineering-tools" target="_blank" rel="noreferrer">https://platform.claude.com/cookbook/tool-use-context-engineering-context-engineering-tools</a></li>
+<li>OpenAI, <strong>How evals drive the next chapter in AI for businesses</strong> (2025-11-19)<br />
+<a href="https://openai.com/index/evals-drive-next-chapter-of-ai/" target="_blank" rel="noreferrer">https://openai.com/index/evals-drive-next-chapter-of-ai/</a></li>
+<li>OpenAI, <strong>Inside OpenAI’s in-house data agent</strong> (2026)<br />
+<a href="https://openai.com/index/inside-our-in-house-data-agent/" target="_blank" rel="noreferrer">https://openai.com/index/inside-our-in-house-data-agent/</a></li>
+<li>OpenAI, <strong>Separating signal from noise in coding evaluations</strong> (2026-07-08)<br />
+<a href="https://openai.com/index/separating-signal-from-noise-coding-evaluations/" target="_blank" rel="noreferrer">https://openai.com/index/separating-signal-from-noise-coding-evaluations/</a></li>
+<li>OpenAI, <strong>A practical guide to building AI agents</strong><br />
+<a href="https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/" target="_blank" rel="noreferrer">https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/</a></li>
+<li>NIST, <strong>AI Risk Management Framework: Generative AI Profile (NIST AI 600-1)</strong> (2024; updated site 2026)<br />
+<a href="https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence" target="_blank" rel="noreferrer">https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence</a></li>
+<li>NIST AI Resource Center / AI RMF Core<br />
+<a href="https://airc.nist.gov/" target="_blank" rel="noreferrer">https://airc.nist.gov/</a></li>
+<li>OWASP, <strong>AI Agent Security Cheat Sheet</strong><br />
+<a href="https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html" target="_blank" rel="noreferrer">https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html</a></li>
+<li>OWASP, <strong>LLM Prompt Injection Prevention Cheat Sheet</strong><br />
+<a href="https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html" target="_blank" rel="noreferrer">https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html</a></li>
+<li>Starace et al., <strong>PaperBench: Evaluating AI's Ability to Replicate AI Research</strong> (2025)<br />
+<a href="https://arxiv.org/abs/2504.01848" target="_blank" rel="noreferrer">https://arxiv.org/abs/2504.01848</a></li>
+<li>Kim et al., <strong>From Reproduction to Replication: Evaluating Research Agents with Progressive Code Masking / AutoExperiment</strong> (2025)<br />
+<a href="https://arxiv.org/abs/2506.19724" target="_blank" rel="noreferrer">https://arxiv.org/abs/2506.19724</a></li>
+<li>Bragg et al., <strong>AstaBench: Rigorous Benchmarking of AI Agents with a Scientific Research Suite</strong> (2025)<br />
+<a href="https://arxiv.org/abs/2510.21652" target="_blank" rel="noreferrer">https://arxiv.org/abs/2510.21652</a></li>
+</ol>
+<p>The sources are intentionally mixed across model vendors, standards/security organizations, and academic benchmarks. Vendor engineering posts are useful empirical reports, not universal laws. The harness should be periodically re-evaluated against newer models and your organization's own measured outcomes.</p>
+<hr />
+<h2 id="version-2-1-company-release-decisions">Version 2.1 company-release decisions</h2>
+<p>The company-release form makes the Claude Code Skill the single canonical executable protocol. The previous package duplicated the static harness at the repository root and inside the Skill; that duplication is removed to prevent drift. The auditable protocol remains under <code>.claude/skills/efwh/resources/harness/</code>, where Claude loads it progressively.</p>
+<p>The Skill is also explicitly <strong>user-invocable only</strong> using <code>disable-model-invocation: true</code>. Current Claude Code documentation recommends this control for workflows whose timing should remain a user decision. EFWH changes the operating mode of an investigation and writes durable state, so explicit <code>/efwh</code> invocation is the appropriate company default.</p>
+<p>Company deployment should prefer managed/enterprise Skills when available. Personal installation is retained for pilots and users outside managed deployment. EFWH deliberately declares no broad <code>allowed-tools</code> permissions: the organization's Claude Code permissions, sandbox, auto-mode rules, and external policy remain authoritative.</p>
+<p>The repository adds automated structural validation, ownership, contribution rules, a release checklist, security guidance, and a rollout runbook. These are release-engineering controls around EFWH; they do not change the evidence protocol itself.</p>
+<h2 id="version-2-ux-decision-make-the-workflow-a-skill-not-a-form">Version 2 UX decision — make the workflow a Skill, not a form</h2>
+<p>The original package asked the user to edit <code>GOAL.md</code> and <code>CONFIG.yaml</code> before pasting a kickoff prompt. That is explicit and auditable, but it turns adoption friction into part of every investigation.</p>
+<p>Version 2 moves initialization into an <strong>Agent Skill</strong>. Anthropic's current Claude Code documentation explicitly positions Skills as the mechanism for reusable multi-step procedures: personal Skills live under <code>~/.claude/skills/</code>, project Skills under <code>.claude/skills/</code>, and they can be invoked directly as <code>/skill-name</code>. Anthropic's broader Agent Skills design uses progressive disclosure: the agent sees only lightweight metadata until the Skill is invoked, then loads detailed resources only when needed. This matches EFWH well because most of its reference material should not occupy the model's context during ordinary work.</p>
+<p>The new default user interaction is therefore one line:</p>
+<pre><code class="language-text">/efwh &lt;problem in normal language&gt;
+</code></pre>
+<p>The agent writes the project brief, configuration, state, evidence registry, and wiki itself. Autonomy and rigor become optional arguments rather than mandatory form fields. When omitted, the Skill chooses conservative adaptive defaults from the user's intent, the effective permissions, and the available containment boundary. Hard gates remain external constraints and cannot be relaxed merely because the user omitted a configuration choice.</p>
+<p>This follows three current design signals:</p>
+<ol>
+<li><strong>Anthropic Agent Skills / Claude Code Skills:</strong> reusable workflows should be packaged as discoverable Skills rather than repeatedly pasted prompts or large always-on instruction files. Skills support project, personal, and organization-level distribution and load supporting files progressively.</li>
+<li><strong>Anthropic 2026 harness research:</strong> a planner can expand a short user prompt into a useful specification, while overly detailed up-front implementation instructions can cascade early mistakes. EFWH therefore asks the human for the desired outcome and lets orientation/research fill in the rest.</li>
+<li><strong>OpenAI's 2026 data-agent lessons:</strong> users should be able to ask natural questions while the agent itself discovers context, tools, lineage, and source-of-truth data. Requiring a human to pre-fill a configuration document works against that goal.</li>
+</ol>
+<h3 id="why-not-make-the-html-page-the-runtime">Why not make the HTML page the runtime?</h3>
+<p>A browser configurator can make setup pleasant, but it is the wrong source of truth. Browser file APIs vary by policy and browser, and asking people to generate/download configuration files simply replaces Markdown editing with a prettier form. The HTML page in v2 is therefore <strong>education + command composition</strong>, not an execution dependency. EFWH still works if the page is never opened.</p>
+<h3 id="why-explicit-efwh-instead-of-invisible-automatic-behavior">Why explicit <code>/efwh</code> instead of invisible automatic behavior?</h3>
+<p>The framework changes how an agent conducts an entire task and may persist research artifacts. Requiring a short explicit command makes intent legible without imposing meaningful friction. Teams that prefer automatic invocation can relax the Skill's trigger policy later; organization-managed deployment can also make the Skill universally available without asking each user to install it per repository.</p>
+<h3 id="adaptive-autonomy-is-not-permission-escalation">Adaptive autonomy is not permission escalation</h3>
+<p>The Skill may infer an appropriate working mode from intent—e.g. read-oriented research versus isolated implementation—but it does not infer permission for production writes, destructive actions, secret disclosure, external communications, or other hard-gated behavior. The purpose of adaptive defaults is to remove configuration ceremony, not to broaden authority.</p>
+<p><strong>Additional v2 sources:</strong></p>
+<ul>
+<li>Claude Code — Extend Claude with skills: <a href="https://code.claude.com/docs/en/skills" target="_blank" rel="noreferrer">https://code.claude.com/docs/en/skills</a></li>
+<li>Anthropic — Equipping agents for the real world with Agent Skills: <a href="https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills" target="_blank" rel="noreferrer">https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills</a></li>
+<li>Anthropic — Harness design for long-running application development: <a href="https://www.anthropic.com/engineering/harness-design-long-running-apps" target="_blank" rel="noreferrer">https://www.anthropic.com/engineering/harness-design-long-running-apps</a></li>
+<li>OpenAI — Inside our in-house data agent: <a href="https://openai.com/index/inside-our-in-house-data-agent/" target="_blank" rel="noreferrer">https://openai.com/index/inside-our-in-house-data-agent/</a></li>
+</ul>
+<div class="sourceMeta">Canonical source: <a href="https://github.com/ZacharyThrasher/evidence-first-work-harness/blob/main/reasoning.md" target="_blank" rel="noreferrer">reasoning.md ↗</a></div></main><aside class="card toc"><div class="tocTitle">On this page</div><a class="" href="#executive-rationale">Executive rationale</a><a class="" href="#design-principle-1-orient-to-the-actual-environment-before-researching">Design principle 1 — Orient to the actual environment before researching</a><a class="" href="#design-principle-2-separate-instruction-trust-from-evidentiary-authority">Design principle 2 — Separate instruction trust from evidentiary authority</a><a class="" href="#design-principle-3-the-wiki-is-a-synthesis-layer-not-a-truth-store">Design principle 3 — The wiki is a synthesis layer, not a truth store</a><a class="" href="#design-principle-4-define-done-before-acting">Design principle 4 — Define “done” before acting</a><a class="" href="#design-principle-5-evaluate-the-outcome-not-the-agent-s-story">Design principle 5 — Evaluate the outcome, not the agent&#x27;s story</a><a class="" href="#design-principle-6-autonomy-and-rigor-are-separate-dimensions">Design principle 6 — Autonomy and rigor are separate dimensions</a><a class="sub" href="#autonomy">Autonomy</a><a class="sub" href="#rigor">Rigor</a><a class="" href="#design-principle-7-default-to-one-agent-specialize-only-when-the-task-justifies-it">Design principle 7 — Default to one agent; specialize only when the task justifies it</a><a class="" href="#design-principle-8-preserve-state-outside-the-conversation">Design principle 8 — Preserve state outside the conversation</a><a class="" href="#design-principle-9-exhausted-must-be-scoped-and-earned">Design principle 9 — “Exhausted” must be scoped and earned</a><a class="" href="#design-principle-10-non-code-work-uses-the-same-loop-different-containment">Design principle 10 — Non-code work uses the same loop, different containment</a><a class="" href="#known-limitations">Known limitations</a><a class="" href="#research-basis-reading-list">Research basis / reading list</a><a class="" href="#version-2-1-company-release-decisions">Version 2.1 company-release decisions</a><a class="" href="#version-2-ux-decision-make-the-workflow-a-skill-not-a-form">Version 2 UX decision — make the workflow a Skill, not a form</a><a class="sub" href="#why-not-make-the-html-page-the-runtime">Why not make the HTML page the runtime?</a><a class="sub" href="#why-explicit-efwh-instead-of-invisible-automatic-behavior">Why explicit `/efwh` instead of invisible automatic behavior?</a><a class="sub" href="#adaptive-autonomy-is-not-permission-escalation">Adaptive autonomy is not permission escalation</a></aside></div><footer class="footer"><strong>EFWH v2.1</strong><span class="creditTag">Created by Zach Thrasher</span><div class="sourceLine"><a href="./index.html">Overview</a><span>·</span><a href="./quickstart.html">Quickstart</a><span>·</span><a href="./reasoning.html">Reasoning</a><span>·</span><a href="https://github.com/ZacharyThrasher/evidence-first-work-harness" target="_blank" rel="noreferrer">Source ↗</a></div></footer></div>
+<script>
+document.querySelectorAll('pre').forEach((pre)=>{
+  const b=document.createElement('button'); b.className='copyCode'; b.type='button'; b.textContent='Copy';
+  b.addEventListener('click', async()=>{try{await navigator.clipboard.writeText(pre.innerText.replace(/^Copy\\n/,'')); b.textContent='Copied'; setTimeout(()=>b.textContent='Copy',1200)}catch(e){b.textContent='Select + copy'}});
+  pre.appendChild(b);
+});
+</script>
+</body></html>

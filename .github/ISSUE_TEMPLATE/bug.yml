@@ -1,0 +1,31 @@
+name: Bug report
+description: Report incorrect or confusing EFWH behavior
+title: "[bug] "
+labels: []
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: What happened?
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: EFWH version
+      placeholder: 2.1.0
+  - type: input
+    id: claude
+    attributes:
+      label: Claude Code / model version
+  - type: textarea
+    id: repro
+    attributes:
+      label: Minimal reproduction
+      description: Redact secrets, proprietary data, and sensitive .efwh artifacts.
