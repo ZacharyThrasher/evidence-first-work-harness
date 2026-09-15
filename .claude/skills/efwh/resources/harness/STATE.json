@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "phase": "ORIENT",
+  "terminal_state": null,
+  "current_task": "ORIENT-001",
+  "autonomy_level": "L1_GUIDED_RESEARCH",
+  "rigor_level": "R1_STANDARD",
+  "goal_last_reviewed": null,
+  "environment_oriented": false,
+  "research_status": "not_started",
+  "wiki_status": "not_started",
+  "candidate_registry_status": "not_started",
+  "evaluation_status": "not_started",
+  "human_gate": {
+    "active": false,
+    "reason": null,
+    "requested_action": null
+  },
+  "last_completed_increment": null,
+  "next_action": "Perform environment orientation using environment/ORIENTATION_PROTOCOL.md",
+  "last_updated": null
+}

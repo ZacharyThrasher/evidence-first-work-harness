@@ -1,0 +1,18 @@
+version: 1
+oriented_at: null
+workspace:
+  type: unknown
+  path: null
+  version_control: unknown
+  clean_or_isolated: unknown
+capabilities: []
+# Example entry:
+# - id: confluence-search
+#   category: internal_docs
+#   available: true
+#   permissions: [READ, SEARCH]
+#   sensitivity: internal
+#   relevance: high
+#   notes: "Authoritative architecture pages are likely here."
+missing_or_unverified: []
+recommended_active_toolset: []

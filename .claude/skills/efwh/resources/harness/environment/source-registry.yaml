@@ -1,0 +1,11 @@
+version: 1
+sources: []
+# Example:
+# - id: SRC-001
+#   name: "Production Lineage Repository"
+#   location: "internal connector or path"
+#   evidence_authority: "primary_internal"
+#   instruction_trust: "untrusted_content"
+#   freshness: "live"
+#   access: "read_only"
+#   relevant_topics: ["table semantics", "freshness", "business logic"]

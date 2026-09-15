@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>EFWH — Evidence-First Work Harness</title>
+<style>
+:root{
+  --bg:#f7f7f5;--surface:rgba(255,255,255,.78);--surface2:#fff;--text:#121212;--muted:#666761;
+  --line:rgba(18,18,18,.10);--line2:rgba(18,18,18,.16);--accent:#0877ff;--accent-soft:#e8f2ff;
+  --good:#0a7a48;--good-soft:#e8f7ef;--shadow:0 22px 70px rgba(20,20,20,.09);--radius:24px;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+@media(prefers-color-scheme:dark){:root{
+  --bg:#090a0b;--surface:rgba(22,23,25,.78);--surface2:#121315;--text:#f6f7f8;--muted:#a4a6a9;
+  --line:rgba(255,255,255,.10);--line2:rgba(255,255,255,.16);--accent:#4ea0ff;--accent-soft:#10294a;
+  --good:#4bd39a;--good-soft:#0c3023;--shadow:0 24px 80px rgba(0,0,0,.36)
+}}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:
+ radial-gradient(900px 480px at 75% -10%,rgba(8,119,255,.10),transparent 62%),var(--bg);
+ color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}.wrap{width:min(1120px,calc(100% - 40px));margin:auto}
+nav{height:72px;display:flex;align-items:center;justify-content:space-between}.brand{font-weight:700;letter-spacing:-.02em}.pill{font-size:12px;padding:6px 10px;border:1px solid var(--line);border-radius:999px;color:var(--muted);background:var(--surface)}
+.hero{padding:70px 0 72px;text-align:center}.eyebrow{display:inline-flex;gap:8px;align-items:center;font-size:13px;font-weight:650;color:var(--good);background:var(--good-soft);border-radius:999px;padding:7px 11px}.dot{width:7px;height:7px;background:currentColor;border-radius:50%}
+h1{font-size:clamp(48px,8vw,86px);line-height:.97;letter-spacing:-.065em;margin:22px auto 20px;max-width:1000px;font-weight:760}.lede{max-width:720px;margin:0 auto;color:var(--muted);font-size:clamp(17px,2.1vw,21px);line-height:1.5;letter-spacing:-.015em}.heroActions{display:flex;justify-content:center;gap:10px;margin-top:30px;flex-wrap:wrap}.btn{border:0;border-radius:14px;padding:12px 16px;font:650 14px var(--sans);cursor:pointer;transition:.18s transform,.18s background,.18s border-color;background:var(--text);color:var(--bg)}.btn:hover{transform:translateY(-1px)}.btn.secondary{background:var(--surface);color:var(--text);border:1px solid var(--line2)}
+.section{padding:76px 0}.sectionHead{display:flex;justify-content:space-between;gap:24px;align-items:end;margin-bottom:24px}.sectionHead h2{margin:0;font-size:clamp(30px,4vw,48px);letter-spacing:-.045em}.sectionHead p{margin:0;color:var(--muted);max-width:500px;line-height:1.55}
+.card{background:var(--surface);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}.step{padding:22px 18px;min-height:150px}.num{font:600 12px var(--mono);color:var(--accent);margin-bottom:30px}.step h3{font-size:16px;margin:0 0 7px}.step p{font-size:13px;line-height:1.45;color:var(--muted);margin:0}
+.builder{display:grid;grid-template-columns:1.05fr .95fr;overflow:hidden}.builderForm{padding:32px}.builderOut{padding:32px;background:color-mix(in srgb,var(--surface2) 84%,var(--accent) 3%);border-left:1px solid var(--line)}label.caption{display:block;font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin:0 0 9px}textarea{width:100%;min-height:132px;resize:vertical;border:1px solid var(--line2);border-radius:16px;background:var(--surface2);color:var(--text);font:500 16px/1.5 var(--sans);padding:15px;outline:none;transition:border .15s,box-shadow .15s}textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 18%,transparent)}
+.controls{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}.segWrap{min-width:0}.seg{display:flex;background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:3px;overflow:auto}.seg button{flex:1;min-width:max-content;border:0;background:transparent;color:var(--muted);border-radius:9px;padding:8px 9px;font:600 12px var(--sans);cursor:pointer}.seg button.active{background:var(--text);color:var(--bg)}
+.kicker{font-size:13px;color:var(--muted);margin-bottom:12px}.command{font:500 14px/1.55 var(--mono);word-break:break-word;padding:16px;border:1px solid var(--line);background:var(--bg);border-radius:14px;min-height:88px}.copyRow{display:flex;gap:8px;margin-top:12px}.tiny{font-size:12px;color:var(--muted);line-height:1.45;margin-top:14px}.examples{display:flex;gap:7px;flex-wrap:wrap;margin-top:14px}.example{border:1px solid var(--line);background:var(--surface2);color:var(--muted);border-radius:999px;padding:7px 10px;font:600 12px var(--sans);cursor:pointer}.example:hover{color:var(--text);border-color:var(--line2)}
+.installGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.install{padding:24px}.install .tag{font:700 11px var(--mono);color:var(--accent);text-transform:uppercase}.install h3{margin:9px 0 8px;font-size:18px}.install p{color:var(--muted);font-size:13px;line-height:1.5;margin:0 0 14px}.path{font:500 12px/1.45 var(--mono);background:var(--bg);border:1px solid var(--line);padding:10px;border-radius:10px;word-break:break-all}
+.reasons{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.reason{padding:22px;min-height:190px}.reason .icon{font:700 20px var(--mono);color:var(--accent)}.reason h3{font-size:16px;margin:26px 0 8px}.reason p{font-size:13px;color:var(--muted);line-height:1.5;margin:0}.reason a{display:inline-block;margin-top:14px;font-size:12px;color:var(--accent);font-weight:650}
+.rules{display:grid;grid-template-columns:1fr 1fr;gap:12px}.rule{padding:24px;display:flex;gap:16px}.rule b{font-size:15px}.rule p{color:var(--muted);font-size:13px;line-height:1.5;margin:4px 0 0}.check{flex:0 0 28px;height:28px;border-radius:9px;background:var(--good-soft);color:var(--good);display:grid;place-items:center;font-weight:800}
+.tree{font:500 13px/1.7 var(--mono);white-space:pre-wrap;color:var(--muted);padding:24px}.footer{padding:70px 0 40px;text-align:center;color:var(--muted);font-size:12px}.footer strong{color:var(--text)}
+.sourceLine{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:10px}.sourceLine a{border-bottom:1px solid var(--line2)}
+@media(max-width:900px){.flow{grid-template-columns:1fr 1fr}.builder{grid-template-columns:1fr}.builderOut{border-left:0;border-top:1px solid var(--line)}.reasons{grid-template-columns:1fr 1fr}.installGrid{grid-template-columns:1fr}.sectionHead{align-items:start;flex-direction:column}.rules{grid-template-columns:1fr}}
+@media(max-width:580px){.wrap{width:min(100% - 24px,1120px)}nav{height:58px}.hero{padding:52px 0 50px}h1{font-size:46px}.section{padding:54px 0}.flow,.reasons{grid-template-columns:1fr}.controls{grid-template-columns:1fr}.builderForm,.builderOut{padding:20px}.step{min-height:0}.num{margin-bottom:16px}.sectionHead p{font-size:14px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn{transition:none}}
+.creditTag{display:inline-flex;align-items:center;margin-left:8px;padding:2px 7px;border:1px solid var(--line);border-radius:999px;color:var(--muted);font-size:11px;font-weight:600;letter-spacing:.01em;vertical-align:1px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav><div class="brand">EFWH</div><div style="display:flex;gap:10px;align-items:center"><a class="pill" href="https://github.com/ZacharyThrasher/evidence-first-work-harness" target="_blank" rel="noreferrer">GitHub ↗</a><div class="pill">Evidence-first · human-gated</div></div></nav>
+<section class="hero">
+  <div class="eyebrow"><span class="dot"></span>One command. Durable engineering.</div>
+  <h1>Turn a hard problem into an evidence trail.</h1>
+  <p class="lede">Claude maps what it can access, researches, tests inside boundaries, verifies the real outcome, and leaves a wiki the next engineer can resume.</p>
+  <div class="heroActions"><a class="btn" href="#start">Build a command</a><a class="btn secondary" href="#why">Why it works</a></div>
+</section>
+
+<section class="section" id="how">
+  <div class="sectionHead"><h2>Five moves. No ritual.</h2><p>The harness adds structure only where agent work tends to fail: missing context, weak evidence, premature conclusions, and lost state.</p></div>
+  <div class="flow">
+    <div class="card step"><div class="num">01</div><h3>Orient</h3><p>Map repo, docs, Confluence, data, MCPs, sandboxes, permissions.</p></div>
+    <div class="card step"><div class="num">02</div><h3>Research</h3><p>Separate observed facts, documentation, inference, and hypotheses.</p></div>
+    <div class="card step"><div class="num">03</div><h3>Test</h3><p>Run the highest-information, lowest-risk experiment inside the allowed boundary.</p></div>
+    <div class="card step"><div class="num">04</div><h3>Verify</h3><p>Judge the environment’s outcome—not the model’s claim that it worked.</p></div>
+    <div class="card step"><div class="num">05</div><h3>Remember</h3><p>Persist evidence, decisions, candidates, wiki, state, and handoff.</p></div>
+  </div>
+</section>
+
+<section class="section" id="start">
+  <div class="sectionHead"><h2>Start with one sentence.</h2><p>No GOAL.md. No CONFIG.yaml. Defaults adapt to intent and containment; hard gates never disappear.</p></div>
+  <div class="card builder">
+    <div class="builderForm">
+      <label class="caption" for="goal">What are you trying to solve?</label>
+      <textarea id="goal" spellcheck="true" placeholder="Why did production yield fall after last week's process change?"></textarea>
+      <div class="controls">
+        <div class="segWrap"><label class="caption">Autonomy</label><div class="seg" id="autonomy">
+          <button data-value="adaptive" class="active">Adaptive</button><button data-value="guided">Guided</button><button data-value="experiment">Experiment</button><button data-value="builder">Builder</button><button data-value="sandbox">Sandbox</button>
+        </div></div>
+        <div class="segWrap"><label class="caption">Rigor</label><div class="seg" id="rigor">
+          <button data-value="adaptive" class="active">Adaptive</button><button data-value="standard">Standard</button><button data-value="high">High</button><button data-value="critical">Critical</button>
+        </div></div>
+      </div>
+      <div class="examples">
+        <button class="example" data-goal="Find the root cause of the intermittent reconnect stall after resume, and build a safe fix if the evidence supports one.">Software</button>
+        <button class="example" data-goal="Explain the production yield drop since the process change, verify the driver against source data, and quantify confidence.">Production data</button>
+        <button class="example" data-goal="Evaluate whether this proposed architecture is actually feasible using our internal docs, vendor sources, and small reversible experiments.">Research</button>
+      </div>
+    </div>
+    <div class="builderOut">
+      <div class="kicker">Paste into Claude Code</div>
+      <div class="command" id="command">/efwh Why did production yield fall after last week's process change?</div>
+      <div class="copyRow"><button class="btn" id="copyCommand">Copy command</button><button class="btn secondary" id="copyResume">Copy /efwh --resume</button></div>
+      <p class="tiny">If you omit controls, EFWH chooses conservative defaults from your intent and environment. Production writes, destructive actions, secrets, external sends, privilege changes, and sensitive-data egress still stop at a human gate.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="install">
+  <div class="sectionHead"><h2>Install once.</h2><p>The repository carries the canonical Skill at <code>.claude/skills/efwh/</code>. Install it once—or let your organization deploy it centrally.</p></div>
+  <div class="card builder" style="margin-bottom:12px">
+    <div class="builderForm">
+      <label class="caption">Fastest install</label>
+      <h3 style="margin:0 0 8px;font-size:20px">Open a terminal wherever you keep tools.</h3>
+      <p style="margin:0;color:var(--muted);font-size:13px;line-height:1.55">Clone the audited repository, then run its installer. The installer refuses to overwrite an existing personal install unless you explicitly ask it to.</p>
+    </div>
+    <div class="builderOut">
+      <div class="kicker" id="installOs">Personal install</div>
+      <div class="command" id="installCommand" style="min-height:0"></div>
+      <div class="copyRow"><button class="btn" id="copyInstall">Copy install command</button></div>
+    </div>
+  </div>
+  <div class="installGrid">
+    <div class="card install"><div class="tag">Personal · recommended</div><h3>Every workspace</h3><p>Install once; use <code>/efwh</code> anywhere.</p><div class="path">~/.claude/skills/efwh/</div></div>
+    <div class="card install"><div class="tag">Project</div><h3>One repo or folder</h3><p>Commit or copy the Skill with the project.</p><div class="path">.claude/skills/efwh/</div></div>
+    <div class="card install"><div class="tag">Organization</div><h3>Zero-install rollout</h3><p>Deploy EFWH as a managed Agent Skill so coworkers just type <code>/efwh</code>.</p><div class="path">managed skill → all users</div></div>
+  </div>
+</section>
+
+<section class="section" id="why">
+  <div class="sectionHead"><h2>Why this shape?</h2><p>Four findings do most of the work. Everything else is implementation detail.</p></div>
+  <div class="reasons">
+    <div class="card reason"><div class="icon">↳</div><h3>Externalize state</h3><p>Long jobs improve when context survives sessions as structured artifacts and work advances incrementally.</p><a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents" target="_blank" rel="noreferrer">Anthropic · 2025 ↗</a></div>
+    <div class="card reason"><div class="icon">✓</div><h3>Define “done” first</h3><p>Pre-agreed task contracts plus a separate evaluator reduce self-grading and premature completion.</p><a href="https://www.anthropic.com/engineering/harness-design-long-running-apps" target="_blank" rel="noreferrer">Anthropic · 2026 ↗</a></div>
+    <div class="card reason"><div class="icon">⌁</div><h3>Context beats schemas</h3><p>Reliable analysis needs internal knowledge, lineage, code, permissions, and direct links to source results.</p><a href="https://openai.com/index/inside-our-in-house-data-agent/" target="_blank" rel="noreferrer">OpenAI · 2026 ↗</a></div>
+    <div class="card reason"><div class="icon">▣</div><h3>Package the procedure</h3><p>Agent Skills are designed for reusable workflows and progressive disclosure instead of giant repeated prompts.</p><a href="https://code.claude.com/docs/en/skills" target="_blank" rel="noreferrer">Claude Code Skills ↗</a></div>
+  </div>
+</section>
+
+<section class="section" id="use">
+  <div class="sectionHead"><h2>Use it well.</h2><p>EFWH should make the model harder to fool, not make the process heavier.</p></div>
+  <div class="rules">
+    <div class="card rule"><div class="check">1</div><div><b>Describe the outcome, not your favorite solution.</b><p>Let orientation and evidence decide the path. Add hard constraints only when they are real.</p></div></div>
+    <div class="card rule"><div class="check">2</div><div><b>Connect the sources that matter.</b><p>Internal docs, code, lineage, logs, warehouse access, test rigs, and SMEs can matter more than model IQ.</p></div></div>
+    <div class="card rule"><div class="check">3</div><div><b>Buy autonomy with containment.</b><p>A disposable worktree or sandbox is better than twenty meaningless approval clicks.</p></div></div>
+    <div class="card rule"><div class="check">4</div><div><b>Make “impossible” earn its name.</b><p>A failed narrow experiment rules out that path—not the entire technology or hypothesis space.</p></div></div>
+  </div>
+</section>
+
+<section class="section" id="examples">
+  <div class="sectionHead"><h2>What appears in the workspace?</h2><p>Only durable evidence/state. Static procedure stays in the Skill.</p></div>
+  <div class="card tree">.efwh/
+├── INDEX.json
+└── projects/&lt;problem&gt;/
+    ├── PROJECT.md        ← goal + verified constraints
+    ├── CONFIG.json       ← autonomy + rigor chosen by the agent/user
+    ├── STATE.json        ← current position
+    ├── environment/      ← what Claude can actually access
+    ├── evidence/         ← raw provenance + scoped findings
+    ├── wiki/             ← high-signal synthesis
+    ├── candidates/       ← approaches/hypotheses + status
+    ├── tasks/CURRENT.md  ← “done” defined before acting
+    ├── experiments/      ← reproducible attempts, including failures
+    ├── evals/            ← real outcome checks
+    ├── decisions/        ← why choices were made
+    └── runs/HANDOFF.md   ← enough for a fresh session/coworker</div>
+</section>
+
+<footer class="footer">
+  <strong>EFWH v2.1</strong><span class="creditTag" title="Original framework and implementation">Created by Zach Thrasher</span> · The page is optional. The Skill is the product.
+  <div class="sourceLine"><a href="docs/reasoning.md">Full reasoning</a><span>·</span><a href="QUICKSTART.md">Quickstart</a><span>·</span><span>No external assets. No telemetry.</span></div>
+</footer>
+</div>
+<script>
+const $=s=>document.querySelector(s);let auto='adaptive',rig='adaptive';
+const goal=$('#goal'),out=$('#command');
+function escGoal(s){return s.trim().replace(/\s+/g,' ')}
+function render(){let g=escGoal(goal.value)||"Why did production yield fall after last week's process change?";let parts=['/efwh'];if(auto!=='adaptive')parts.push('--autonomy '+auto);if(rig!=='adaptive')parts.push('--rigor '+rig);parts.push(g);out.textContent=parts.join(' ')}
+function wire(id,set){document.querySelectorAll('#'+id+' button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('#'+id+' button').forEach(x=>x.classList.remove('active'));b.classList.add('active');set(b.dataset.value);render()}))}
+wire('autonomy',v=>auto=v);wire('rigor',v=>rig=v);goal.addEventListener('input',render);
+document.querySelectorAll('.example').forEach(b=>b.addEventListener('click',()=>{goal.value=b.dataset.goal;goal.focus();render()}));
+async function copy(text,button){try{await navigator.clipboard.writeText(text);let old=button.textContent;button.textContent='Copied';setTimeout(()=>button.textContent=old,1200)}catch(e){let ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove()}}
+$('#copyCommand').addEventListener('click',e=>copy(out.textContent,e.currentTarget));$('#copyResume').addEventListener('click',e=>copy('/efwh --resume',e.currentTarget));
+const isWin=/Win/i.test(navigator.platform||navigator.userAgent);const installWin=String.raw`git clone --depth 1 https://github.com/ZacharyThrasher/evidence-first-work-harness.git efwh; & .\efwh\scripts\install.ps1`;const installUnix=`git clone --depth 1 https://github.com/ZacharyThrasher/evidence-first-work-harness.git efwh && ./efwh/scripts/install.sh`;const installCmd=isWin?installWin:installUnix;$('#installOs').textContent=isWin?'PowerShell · personal install':'Shell · personal install';$('#installCommand').textContent=installCmd;$('#copyInstall').addEventListener('click',e=>copy(installCmd,e.currentTarget));render();
+</script>
+</body>
+</html>

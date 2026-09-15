@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EFWH State",
+  "type": "object",
+  "required": [
+    "version",
+    "phase",
+    "terminal_state",
+    "current_task",
+    "autonomy_level",
+    "rigor_level",
+    "environment_oriented",
+    "next_action"
+  ],
+  "properties": {
+    "version": {
+      "type": "integer"
+    },
+    "phase": {
+      "enum": [
+        "ORIENT",
+        "FRAME",
+        "RESEARCH",
+        "SYNTHESIZE",
+        "PLAN",
+        "EXECUTE",
+        "EVALUATE",
+        "HANDOFF",
+        "TERMINAL"
+      ]
+    },
+    "terminal_state": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        null,
+        "COMPLETED",
+        "HUMAN_GATE",
+        "BLOCKED_EXTERNAL",
+        "EXHAUSTED",
+        "ABANDONED_BY_USER"
+      ]
+    },
+    "current_task": {
+      "type": "string"
+    },
+    "autonomy_level": {
+      "type": "string"
+    },
+    "rigor_level": {
+      "type": "string"
+    },
+    "environment_oriented": {
+      "type": "boolean"
+    },
+    "next_action": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "additionalProperties": true
+}
