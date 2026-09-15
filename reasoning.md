@@ -294,9 +294,9 @@ The sources are intentionally mixed across model vendors, standards/security org
 ---
 
 
-## Version 2.2 guided-install decision
+## Version 2.2 guided-install decision (superseded in 2.3)
 
-The preferred personal install path is now agent-guided rather than shell-first. The user launches an interactive Claude Code session with a short request to install EFWH from the repository; the repository's `INSTALL.md` is the canonical procedure Claude follows. This keeps the human-facing action stable while allowing the repository to evolve environment-specific installation details.
+Version 2.2 briefly made the preferred personal install path agent-guided rather than shell-first. The user launches an interactive Claude Code session with a short request to install EFWH from the repository; the repository's `INSTALL.md` is the canonical procedure Claude follows. This keeps the human-facing action stable while allowing the repository to evolve environment-specific installation details.
 
 The deterministic `scripts/install.ps1` and `scripts/install.sh` remain available as an auditable fallback. Both resolve the personal Claude configuration root from `CLAUDE_CONFIG_DIR` when set and otherwise use `~/.claude`. The guided path does not expand authority: ordinary Claude Code permission prompts and enterprise policy remain in force.
 
@@ -349,3 +349,13 @@ The Skill may infer an appropriate working mode from intent—e.g. read-oriented
 - Anthropic — Harness design for long-running application development: https://www.anthropic.com/engineering/harness-design-long-running-apps
 - OpenAI — Inside our in-house data agent: https://openai.com/index/inside-our-in-house-data-agent/
 
+
+## Version 2.3 distribution decision — deterministic install, agentic use
+
+The earlier guided-install experiment asked Claude Code to interpret a repository URL, discover installation instructions, and copy the Skill itself. In corporate environments this proved unnecessarily variable: an agent could fall back to web-search/MCP retrieval and reconstruct files one-by-one when Git semantics or network access were not obvious. That made installation depend on model behavior even though installation is fundamentally a deterministic filesystem operation.
+
+Version 2.3 therefore moves installation out of the agent loop. The preferred interface is `npx --yes @zacharythrasher/efwh install`. The npm tarball contains the canonical `.claude/skills/efwh/` tree, so the installer does not need GitHub at runtime and does not rely on the model to choose a transport. Existing installs are backed up before replacement and the copied tree is verified.
+
+This intentionally follows a broader design rule: **use deterministic software for deterministic transport and state changes; use the model where interpretation and reasoning are actually required.** The `/efwh` workflow remains agentic, but getting that workflow onto disk is not.
+
+Restricted networks are handled with the same principle. An offline ZIP and local npm tarball carry the identical Skill payload and can be mirrored through an approved internal software channel. The fallback does not weaken enterprise policy or introduce another network path; it simply removes GitHub/npm from the installation transaction once the artifact has been obtained.

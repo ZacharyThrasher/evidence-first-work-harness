@@ -4,7 +4,11 @@ EFWH has two layers.
 
 ## 1. Distribution layer
 
-`.claude/skills/efwh/SKILL.md` is the user entry point. The command is `/efwh`. Detailed protocol files live beside it under `resources/harness/` and are loaded progressively as needed.
+`.claude/skills/efwh/SKILL.md` is the single canonical Skill payload. The command is `/efwh`. Detailed protocol files live beside it under `resources/harness/` and are loaded progressively as needed.
+
+Personal installation is deliberately deterministic: the root npm package exposes `npx --yes @zacharythrasher/efwh install`, and its package tarball contains the canonical Skill tree directly. The installer copies that tree into the effective personal Claude config root, backs up any differing existing copy, and verifies the result. It does not clone GitHub or ask an agent to reconstruct repository files.
+
+For networks where npm is unavailable, release artifacts include the same payload in a self-contained offline ZIP plus a local npm tarball. Organization-wide rollout should still prefer managed Skills.
 
 The Skill intentionally has no blanket `allowed-tools` grant. It is `disable-model-invocation: true`, so the user chooses when EFWH begins.
 

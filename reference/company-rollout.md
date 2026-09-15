@@ -20,9 +20,17 @@ Use a small cross-section of engineering/data/research users. Capture: time-to-f
 
 The goal is not maximum harness complexity. Remove ceremony that does not measurably improve outcomes.
 
-### 3. Deploy the Skill centrally
+### 3. Choose the deployment tier
 
-Current Claude Code supports enterprise/managed Skills. Deploy the contents of `.claude/skills/efwh/` through your managed settings directory so all intended users receive `/efwh`. Keep `disable-model-invocation: true` for the default company profile unless your governance team deliberately chooses otherwise.
+For pilots or unmanaged users, the preferred install is:
+
+```text
+npx --yes @zacharythrasher/efwh install
+```
+
+The npm package contains the Skill payload and does not need GitHub at install time. If the npm registry is blocked, distribute the signed/approved offline release ZIP through your normal internal software channel and run its local installer.
+
+For broad rollout, current Claude Code supports enterprise/managed Skills. Deploy the contents of `.claude/skills/efwh/` through your managed settings directory so all intended users receive `/efwh` without per-user installation. Keep `disable-model-invocation: true` for the default company profile unless your governance team deliberately chooses otherwise.
 
 Do not add blanket `allowed-tools` permissions to EFWH as a convenience shortcut. Tool permissions belong in your organization’s established Claude Code permission/sandbox policy.
 

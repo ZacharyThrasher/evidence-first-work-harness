@@ -2,6 +2,23 @@
 
 ## Unreleased
 
+## 2.3.0 — 2026-09-14
+
+### Added
+- Added a dependency-free npm installer so the normal path is simply `npx --yes @zacharythrasher/efwh install`.
+- Added `install`, `update`, `status`, and reversible `uninstall` commands.
+- Added self-contained offline distribution artifacts for restricted networks.
+
+### Changed
+- Installation is deterministic software distribution rather than an agent-guided repository reconstruction.
+- The npm package carries the canonical EFWH Skill payload, so normal installation does not require Git or GitHub access at runtime.
+- Updated the website, README, quickstart, architecture, and rollout guidance around the new installer.
+
+### Safety / reliability
+- Existing personal installs are backed up before replacement.
+- Installed payloads are verified against the bundled canonical tree.
+- `CLAUDE_CONFIG_DIR` remains authoritative when set.
+
 ## 2.2.0 — 2026-09-14
 
 ### Added

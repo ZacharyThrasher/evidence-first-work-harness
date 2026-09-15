@@ -2,35 +2,39 @@
 
 ## Install once
 
-### Recommended: let Claude guide the install
-
-Run this from **any directory**:
+From **any directory**:
 
 ```text
-claude "Install EFWH from https://github.com/ZacharyThrasher/evidence-first-work-harness for me. Follow the repository's INSTALL.md and guide me through any approvals."
+npx --yes @zacharythrasher/efwh install
 ```
 
-Claude Code starts interactively, reads the repository's [`INSTALL.md`](./INSTALL.md), installs EFWH as a **personal Skill**, and guides you through any approvals. Personal Skills are available across all of your Claude Code projects.
+No Git checkout is required. The npm package carries the full EFWH Skill and installs it at personal scope so `/efwh` is available across your Claude Code projects.
 
-If the personal `skills` directory did not exist when that Claude session started, restart Claude Code once after installation so it can discover the newly created directory.
+The installer honors `CLAUDE_CONFIG_DIR` when set; otherwise it installs to `~/.claude/skills/efwh/`. Existing installs are backed up before replacement and the final copy is verified.
 
-### Deterministic manual fallback
+### Restricted network / offline
 
-**Windows / PowerShell**
+If npm is blocked, download the self-contained `efwh-offline-2.3.0.zip` release artifact (or obtain it from your approved internal mirror), extract it, and run:
 
-```powershell
-git clone --depth 1 https://github.com/ZacharyThrasher/evidence-first-work-harness.git efwh
-& .\efwh\scripts\install.ps1
+**Windows**
+
+```text
+install.cmd
 ```
 
 **macOS / Linux**
 
 ```bash
-git clone --depth 1 https://github.com/ZacharyThrasher/evidence-first-work-harness.git efwh
-./efwh/scripts/install.sh
+./install.sh
 ```
 
-The fallback installers use `CLAUDE_CONFIG_DIR` when it is set; otherwise they install to `~/.claude/skills/efwh/`. They refuse to replace an existing install unless `-Force` / `--force` is explicitly supplied.
+No GitHub or npm access is needed after you have the offline bundle.
+
+If you have the local npm tarball instead:
+
+```text
+npx --yes ./efwh-2.3.0.tgz install
+```
 
 ## Use it
 
@@ -51,6 +55,6 @@ Optional controls:
 /efwh --status
 ```
 
-No GOAL/config file editing is required. EFWH writes its durable project state under `.efwh/`.
+No GOAL/config file editing is required. EFWH writes durable project state under `.efwh/`.
 
 For company-managed deployment, see [`reference/company-rollout.md`](./reference/company-rollout.md).

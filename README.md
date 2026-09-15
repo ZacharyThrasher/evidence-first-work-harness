@@ -4,21 +4,17 @@
 
 > Describe the problem once. EFWH orients to the environment, builds an evidence-backed working wiki, tests competing explanations/approaches, and leaves enough state for another session or engineer to continue.
 
-**Created by Zach Thrasher** · Current release: **2.2.0**
+**Created by Zach Thrasher** · Current release: **2.3.0**
 
-## Start in 30 seconds
+## Start in 20 seconds
 
-From any terminal/directory, start Claude Code with the guided installer:
+From any terminal/directory:
 
 ```text
-claude "Install EFWH from https://github.com/ZacharyThrasher/evidence-first-work-harness for me. Follow the repository's INSTALL.md and guide me through any approvals."
+npx --yes @zacharythrasher/efwh install
 ```
 
-Claude opens interactively, follows [`INSTALL.md`](./INSTALL.md), installs the canonical Skill at personal scope, and guides you through any approvals. After installation, `/efwh` is available across your local Claude Code projects. If the personal skills directory did not exist when the current session started, Claude will tell you to restart once.
-
-Prefer a deterministic/manual path? See [`INSTALL.md`](./INSTALL.md#deterministic-manual-fallback) or [`QUICKSTART.md`](./QUICKSTART.md).
-
-Then start Claude Code in any workspace and type:
+No Git checkout is required. The npm package contains the canonical EFWH Skill and installs it as a personal Claude Code Skill. After installation, start Claude Code in any workspace and type:
 
 ```text
 /efwh <your problem in normal language>
@@ -34,7 +30,9 @@ Examples:
 
 Resume later with `/efwh --resume`. Check state with `/efwh --status`.
 
-**[Open the 90-second visual guide →](./docs/index.html)**
+**Restricted network?** The release includes a self-contained offline ZIP and local npm tarball; neither requires GitHub access after download. See [INSTALL.md](./INSTALL.md).
+
+**[Open the visual guide →](./docs/index.html)**
 
 ## What EFWH changes
 
@@ -49,6 +47,27 @@ Normal chat is optimized for answering. EFWH is optimized for **investigating an
 7. **Evaluate the real outcome** — environment state and independent checks outrank the model saying “done.”
 8. **Persist the handoff** — `.efwh/` carries the project across context windows, sessions, and coworkers.
 
+## Installation model
+
+EFWH deliberately separates installation from agent reasoning:
+
+```text
+npx --yes @zacharythrasher/efwh install
+        │
+        ├─ deterministic filesystem install
+        ├─ bundled Skill payload (no Git fetch)
+        ├─ safe backup on replacement
+        └─ byte-for-byte verification
+                 │
+                 ▼
+         ~/.claude/skills/efwh/
+                 │
+                 ▼
+              /efwh ...
+```
+
+The installer is dependency-free and uses the canonical `.claude/skills/efwh/` tree already in this repository. For npm-blocked environments, the same payload ships in an offline bundle.
+
 ## Why this is company-safe by default
 
 EFWH does **not** grant itself extra permissions. The Skill declares no broad `allowed-tools` rule and is `disable-model-invocation: true`, so users explicitly opt in with `/efwh`. Existing Claude Code permissions, sandbox/auto-mode controls, enterprise policy, data classification, and system authorization remain authoritative.
@@ -57,7 +76,7 @@ Hard gates include production/primary writes, destructive or irreversible action
 
 ## Company deployment
 
-For pilots, use the guided personal install above (or the deterministic fallback in `INSTALL.md`). For a managed rollout, deploy `.claude/skills/efwh/` through your organization’s Claude Code managed Skills mechanism so users receive `/efwh` without per-user installation. See [Company rollout](./reference/company-rollout.md).
+For pilots and individual installs, use `npx --yes @zacharythrasher/efwh install`. For restricted networks, use the offline bundle. For broad managed rollout, deploy `.claude/skills/efwh/` through your organization’s Claude Code managed Skills mechanism. See [Company rollout](./reference/company-rollout.md).
 
 ## What gets written into a user's workspace
 
@@ -85,20 +104,17 @@ The Skill does **not** silently add `.efwh/` to a project's `.gitignore` or comm
 
 EFWH is intentionally simple and file-based. Its structure is grounded in current work on long-running agent harnesses, evaluation, context engineering, containment, Agent Skills, and production data agents. The full rationale and reading list live in [reasoning.md](./reasoning.md).
 
-Key design influences include Anthropic’s long-running harness research, Claude Code Skills and containment guidance, OpenAI’s internal data-agent write-up, OpenAI’s 2026 audit showing that evals themselves can be defective, NIST AI RMF guidance, and OWASP agent/prompt-injection guidance.
-
 ## Repository map
 
 ```text
 .claude/skills/efwh/     canonical distributable Skill
-  SKILL.md
-  resources/harness/     auditable vendor-neutral protocol
-docs/                    GitHub Pages site (HTML only)
+installer/efwh.mjs       dependency-free `npx --yes @zacharythrasher/efwh` installer
+package.json             npm distribution manifest
+scripts/                 offline/manual installers + release validation
+docs/                    GitHub Pages site + downloadable offline artifacts
 reference/               architecture, rollout, release docs
 reasoning.md             independent design rationale
-INSTALL.md              canonical human/agent install contract
-scripts/                 deterministic install fallback + release validation
-docs/index.html          self-contained visual guide
+INSTALL.md               canonical install documentation
 .github/                  CI + contribution templates + ownership
 ```
 

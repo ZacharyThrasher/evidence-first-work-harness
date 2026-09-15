@@ -1,49 +1,64 @@
-# Install EFWH with Claude Code
+# Install EFWH
 
-This file is the canonical installation contract for humans and agents.
+EFWH installs as a **personal Claude Code Skill**, making `/efwh` available across all of your local Claude Code projects.
 
-If a user asks Claude Code to install this repository, install **EFWH as a personal Claude Code Skill** so `/efwh` is available across that user's projects. Do not install it only into the current project unless the user explicitly asks for a project-scoped install.
+## Recommended
 
-## Recommended entry point
-
-A user can run this from any directory:
+From any directory:
 
 ```text
-claude "Install EFWH from https://github.com/ZacharyThrasher/evidence-first-work-harness for me. Follow the repository's INSTALL.md and guide me through any approvals."
+npx --yes @zacharythrasher/efwh install
 ```
 
-This intentionally starts an **interactive** Claude Code session so the user can review and approve any filesystem or network actions through the normal Claude Code permission flow.
+That is the complete normal install.
 
-## Installation contract
+The npm package contains the full canonical `.claude/skills/efwh/` payload, so the installer does **not** clone this repository or fetch individual files from GitHub at runtime. It uses `CLAUDE_CONFIG_DIR` when set; otherwise it installs to `~/.claude/skills/efwh/` (`%USERPROFILE%\.claude\skills\efwh\` on Windows).
 
-1. **Inspect before changing anything.** Confirm this repository is `ZacharyThrasher/evidence-first-work-harness` and locate the canonical Skill at `.claude/skills/efwh/`.
-2. **Resolve the personal Claude configuration root correctly.** If `CLAUDE_CONFIG_DIR` is set, use that directory. Otherwise use `~/.claude` (`%USERPROFILE%\.claude` on Windows). The destination is `<config-root>/skills/efwh/`.
-3. **Install the complete Skill directory.** Preserve the entire `.claude/skills/efwh/` tree and its relative paths. Do not rewrite `SKILL.md` or omit supporting resources.
-4. **Do not modify unrelated Claude configuration.** Do not edit `settings.json`, hooks, MCP configuration, credentials, policies, project files, or managed settings unless the user separately requests it.
-5. **Handle existing installs safely.** If `<config-root>/skills/efwh/` already exists, inspect its version first. If it is identical/current, report that no change is needed. If replacement is needed, tell the user what will change, preserve a timestamped backup, and obtain any approval required by the active Claude Code permission policy before replacing it.
-6. **Respect enterprise precedence.** A managed/enterprise Skill with the same name can override a personal Skill. If such a conflict is detectable, report it rather than attempting to bypass managed configuration.
-7. **Verify the result.** Confirm the destination contains `SKILL.md` plus the bundled resources, and that its metadata version matches this repository's `VERSION` file (`2.2.0`).
-8. **Explain reload behavior.** Claude Code watches existing personal skill directories for changes. If the top-level personal `skills` directory did not exist when the current Claude session started, tell the user to restart Claude Code once so the new directory is discovered.
-9. **Finish with a concrete result.** Report the install path, installed EFWH version, whether an old copy was backed up, whether a restart is needed, and the next command: `/efwh <problem>`.
+If EFWH is already installed and identical, the command is a no-op. If an update/replacement is needed, the installer moves the existing copy to a timestamped backup, installs the bundled payload, and verifies the copied tree byte-for-byte.
 
-## Deterministic manual fallback
+Useful commands:
 
-If the user prefers a non-agentic install, clone/download this repository and run the platform installer:
-
-**Windows / PowerShell**
-
-```powershell
-.\scripts\install.ps1
+```text
+npx --yes @zacharythrasher/efwh install
+npx --yes @zacharythrasher/efwh update
+npx --yes @zacharythrasher/efwh status
+npx --yes @zacharythrasher/efwh uninstall
 ```
+
+`uninstall` disables EFWH by moving it to a recovery copy. `uninstall --purge` explicitly deletes it.
+
+## Restricted-network / offline fallback
+
+If the npm registry is unavailable on your network, use the self-contained offline bundle:
+
+**Windows**
+
+1. Download/extract `efwh-offline-2.3.0.zip` from the EFWH release or your approved internal mirror.
+2. Run `install.cmd` (or `install.ps1`) from the extracted folder.
 
 **macOS / Linux**
 
+1. Download/extract the same bundle.
+2. Run:
+
 ```bash
-./scripts/install.sh
+./install.sh
 ```
 
-The fallback installers follow the same personal config-root rule and refuse to overwrite an existing install unless the user explicitly selects the force option.
+The offline bundle contains the same canonical Skill payload and requires no Git checkout, no GitHub API access, and no npm registry access.
 
-## Scope
+If Node/npm is available but only the registry is blocked, the release also includes `efwh-2.3.0.tgz`; run it directly from the local file:
 
-Installing EFWH copies a Claude Code Skill. It does **not** grant extra permissions, alter enterprise policy, enable tools, configure credentials, or modify the user's projects. EFWH remains explicitly user-invocable with `/efwh`.
+```text
+npx --yes ./efwh-2.3.0.tgz install
+```
+
+## Managed company deployment
+
+For broad organization rollout, prefer your existing Claude Code managed-Skills mechanism and deploy `.claude/skills/efwh/` centrally. The npm/offline installers are intended for personal pilots and unmanaged local installs.
+
+## Scope and safety
+
+Installing EFWH copies one Skill directory. It does **not** grant extra permissions, alter enterprise policy, enable tools, modify MCP configuration, configure credentials, or touch project files.
+
+Claude Code documentation defines personal Skills under `~/.claude/skills/<skill-name>/`, where they are available across projects. EFWH remains explicitly user-invocable with `/efwh`.

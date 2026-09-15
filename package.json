@@ -1,0 +1,39 @@
+{
+  "name": "@zacharythrasher/efwh",
+  "version": "2.3.0",
+  "description": "Deterministic installer for the Evidence-First Work Harness Claude Code skill",
+  "type": "module",
+  "bin": {
+    "efwh": "installer/efwh.mjs"
+  },
+  "files": [
+    "installer/efwh.mjs",
+    ".claude/skills/efwh/**",
+    "VERSION",
+    "README.md",
+    "INSTALL.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZacharyThrasher/evidence-first-work-harness.git"
+  },
+  "homepage": "https://zacharythrasher.github.io/evidence-first-work-harness/",
+  "bugs": {
+    "url": "https://github.com/ZacharyThrasher/evidence-first-work-harness/issues"
+  },
+  "keywords": [
+    "claude-code",
+    "agent-skills",
+    "research",
+    "engineering",
+    "evidence"
+  ],
+  "author": "Zach Thrasher",
+  "license": "UNLICENSED",
+  "publishConfig": {
+    "access": "public"
+  }
+}
