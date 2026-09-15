@@ -5,7 +5,7 @@ compatibility: Designed for Claude Code / Claude Sonnet 5 with filesystem and to
 argument-hint: "[--autonomy <level>] [--rigor <level>] <problem | --resume | --status>"
 disable-model-invocation: true
 metadata:
-  version: "2.1.0"
+  version: "2.2.0"
 ---
 
 # EFWH — Evidence-First Work Harness

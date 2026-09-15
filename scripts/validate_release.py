@@ -10,6 +10,7 @@ errors: list[str] = []
 
 required = [
     "README.md",
+    "INSTALL.md",
     "QUICKSTART.md",
     "SECURITY.md",
     "CONTRIBUTING.md",
@@ -45,6 +46,16 @@ if "allowed-tools:" in skill:
 if version and f'version: "{version}"' not in skill:
     errors.append(f"SKILL metadata version does not match VERSION ({version})")
 
+
+install_contract = (ROOT / "INSTALL.md").read_text(encoding="utf-8") if (ROOT / "INSTALL.md").exists() else ""
+for token in ("CLAUDE_CONFIG_DIR", ".claude/skills/efwh", "/efwh <problem>"):
+    if token not in install_contract:
+        errors.append(f"INSTALL.md missing required token: {token}")
+
+for installer in (ROOT / "scripts/install.ps1", ROOT / "scripts/install.sh"):
+    if installer.exists() and "CLAUDE_CONFIG_DIR" not in installer.read_text(encoding="utf-8"):
+        errors.append(f"fallback installer does not honor CLAUDE_CONFIG_DIR: {installer.relative_to(ROOT)}")
+
 for path in ROOT.rglob("*.json"):
     try:
         json.loads(path.read_text(encoding="utf-8"))
@@ -78,6 +89,9 @@ for token in (
     "Created by Zach Thrasher",
     ".claude/skills/efwh",
     "ZacharyThrasher/evidence-first-work-harness",
+    "Copy interactive install",
+    "claude",
+    "INSTALL.md",
 ):
     if token not in site:
         errors.append(f"docs/index.html missing required token: {token}")

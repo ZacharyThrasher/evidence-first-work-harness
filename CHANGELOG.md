@@ -2,6 +2,17 @@
 
 ## Unreleased
 
+## 2.2.0 — 2026-09-14
+
+### Added
+- Added `INSTALL.md` as the canonical human/agent installation contract.
+- Added a guided interactive install path that can be launched from any directory with one `claude "..."` command.
+
+### Changed
+- Made agent-guided personal installation the primary website and quickstart UX; deterministic scripts remain the fallback.
+- Updated fallback installers to honor `CLAUDE_CONFIG_DIR` before falling back to `~/.claude`.
+- Bumped site and Skill metadata to 2.2.0.
+
 ### Fixed
 - Made `docs/` the exclusive GitHub Pages web root with pre-rendered `index.html`, `quickstart.html`, and `reasoning.html`.
 - Moved editable reasoning/design Markdown outside the Pages root so site navigation cannot fall through to raw Markdown.

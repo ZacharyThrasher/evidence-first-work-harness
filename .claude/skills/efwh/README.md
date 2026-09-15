@@ -1,8 +1,11 @@
 # EFWH Agent Skill
 
-Install this whole `efwh` directory at either:
+This directory is the canonical distributable EFWH Skill.
 
-- Personal: `~/.claude/skills/efwh/`
+Recommended personal installation: follow the repository root `INSTALL.md`. Personal skills live at `<Claude config root>/skills/efwh/`, where the config root is `CLAUDE_CONFIG_DIR` when set and otherwise `~/.claude`.
+
+Other supported scopes:
+
 - Project: `.claude/skills/efwh/`
 - Organization: deploy as a managed Agent Skill
 

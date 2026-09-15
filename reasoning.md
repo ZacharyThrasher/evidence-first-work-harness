@@ -1,6 +1,6 @@
 # reasoning.md — Why the Evidence-First Work Harness is structured this way
 
-**Version:** 2.1.0  
+**Version:** 2.2.0  
 **Research refresh:** 2026-09-14  
 **Purpose:** explain the design independently of the harness itself, so teams can challenge or simplify the framework instead of treating scaffolding as doctrine.
 
@@ -293,6 +293,12 @@ The sources are intentionally mixed across model vendors, standards/security org
 
 ---
 
+
+## Version 2.2 guided-install decision
+
+The preferred personal install path is now agent-guided rather than shell-first. The user launches an interactive Claude Code session with a short request to install EFWH from the repository; the repository's `INSTALL.md` is the canonical procedure Claude follows. This keeps the human-facing action stable while allowing the repository to evolve environment-specific installation details.
+
+The deterministic `scripts/install.ps1` and `scripts/install.sh` remain available as an auditable fallback. Both resolve the personal Claude configuration root from `CLAUDE_CONFIG_DIR` when set and otherwise use `~/.claude`. The guided path does not expand authority: ordinary Claude Code permission prompts and enterprise policy remain in force.
 
 ## Version 2.1 company-release decisions
 

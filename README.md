@@ -4,23 +4,19 @@
 
 > Describe the problem once. EFWH orients to the environment, builds an evidence-backed working wiki, tests competing explanations/approaches, and leaves enough state for another session or engineer to continue.
 
-**Created by Zach Thrasher** · Current release: **2.1.0**
+**Created by Zach Thrasher** · Current release: **2.2.0**
 
 ## Start in 30 seconds
 
-Install once:
+From any terminal/directory, start Claude Code with the guided installer:
 
-**Windows / PowerShell**
-```powershell
-git clone --depth 1 https://github.com/ZacharyThrasher/evidence-first-work-harness.git efwh
-& .\efwh\scripts\install.ps1
+```text
+claude "Install EFWH from https://github.com/ZacharyThrasher/evidence-first-work-harness for me. Follow the repository's INSTALL.md and guide me through any approvals."
 ```
 
-**macOS / Linux**
-```bash
-git clone --depth 1 https://github.com/ZacharyThrasher/evidence-first-work-harness.git efwh
-./efwh/scripts/install.sh
-```
+Claude opens interactively, follows [`INSTALL.md`](./INSTALL.md), installs the canonical Skill at personal scope, and guides you through any approvals. After installation, `/efwh` is available across your local Claude Code projects. If the personal skills directory did not exist when the current session started, Claude will tell you to restart once.
+
+Prefer a deterministic/manual path? See [`INSTALL.md`](./INSTALL.md#deterministic-manual-fallback) or [`QUICKSTART.md`](./QUICKSTART.md).
 
 Then start Claude Code in any workspace and type:
 
@@ -61,7 +57,7 @@ Hard gates include production/primary writes, destructive or irreversible action
 
 ## Company deployment
 
-For pilots, use the personal installer above. For a managed rollout, deploy `.claude/skills/efwh/` through your organization’s Claude Code managed Skills mechanism so users receive `/efwh` without per-user installation. See [Company rollout](./reference/company-rollout.md).
+For pilots, use the guided personal install above (or the deterministic fallback in `INSTALL.md`). For a managed rollout, deploy `.claude/skills/efwh/` through your organization’s Claude Code managed Skills mechanism so users receive `/efwh` without per-user installation. See [Company rollout](./reference/company-rollout.md).
 
 ## What gets written into a user's workspace
 
@@ -100,7 +96,8 @@ Key design influences include Anthropic’s long-running harness research, Claud
 docs/                    GitHub Pages site (HTML only)
 reference/               architecture, rollout, release docs
 reasoning.md             independent design rationale
-scripts/                 safe install + release validation
+INSTALL.md              canonical human/agent install contract
+scripts/                 deterministic install fallback + release validation
 docs/index.html          self-contained visual guide
 .github/                  CI + contribution templates + ownership
 ```

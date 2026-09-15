@@ -27,15 +27,22 @@ pre{position:relative;overflow:auto;background:var(--bg);border:1px solid var(--
 @media(max-width:580px){.wrap{width:min(100% - 24px,1120px)}nav{height:auto;padding:14px 0;align-items:flex-start}.navLinks{gap:6px}.hero{padding:46px 0 42px}h1{font-size:44px}.article{padding:24px 19px}.pageGrid{gap:14px;padding-bottom:48px}.toc{display:none}.article h2{font-size:25px;margin-top:40px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style></head><body><div class="wrap"><nav><a class="brand" href="./index.html">EFWH</a><div class="navLinks"><a class="pill" href="./index.html">Overview</a><a class="pill active" href="./quickstart.html">Quickstart</a><a class="pill" href="./reasoning.html">Reasoning</a><a class="pill" href="https://github.com/ZacharyThrasher/evidence-first-work-harness" target="_blank" rel="noreferrer">GitHub ↗</a></div></nav><section class="hero"><div class="eyebrow"><span class="dot"></span>About two minutes</div><h1>Install once.<br>Then just <code>/efwh</code>.</h1><p class="lede">The short path from a clean machine to an evidence-first investigation. No project templates or configuration forms required.</p><div class="heroActions"><a class="btn" href="#install-once">Install</a><a class="btn secondary" href="./index.html#start">Build a command</a></div></section><div class="pageGrid"><main class="card article"><h2 id="install-once">Install once</h2>
-<h3 id="windows">Windows</h3>
+<h3 id="guided-install">Recommended: guided install</h3>
+<p>Run this from <strong>any directory</strong>. Claude Code stays interactive so you can review and approve anything it needs through the normal permission flow.</p>
+<pre><code class="language-text">claude "Install EFWH from https://github.com/ZacharyThrasher/evidence-first-work-harness for me. Follow the repository's INSTALL.md and guide me through any approvals."
+</code></pre>
+<p>Claude follows the repository's <a href="https://github.com/ZacharyThrasher/evidence-first-work-harness/blob/main/INSTALL.md" target="_blank" rel="noreferrer"><code>INSTALL.md</code></a>, installs EFWH at personal scope, handles an existing copy safely, verifies the installed version, and tells you if one Claude restart is needed for discovery.</p>
+<h3 id="manual-fallback">Deterministic manual fallback</h3>
+<p>If you prefer a non-agentic install, use the platform script:</p>
+<h4>Windows / PowerShell</h4>
 <pre><code class="language-powershell">git clone --depth 1 https://github.com/ZacharyThrasher/evidence-first-work-harness.git efwh
 &amp; .\efwh\scripts\install.ps1
 </code></pre>
-<h3 id="macos-linux">macOS / Linux</h3>
+<h4>macOS / Linux</h4>
 <pre><code class="language-bash">git clone --depth 1 https://github.com/ZacharyThrasher/evidence-first-work-harness.git efwh
 ./efwh/scripts/install.sh
 </code></pre>
-<p>The installers copy the canonical Skill into <code>~/.claude/skills/efwh/</code> and refuse to overwrite an existing install unless <code>-Force</code> / <code>--force</code> is supplied.</p>
+<p>The fallback installers honor <code>CLAUDE_CONFIG_DIR</code> when set; otherwise they install to <code>~/.claude/skills/efwh/</code>. They refuse to overwrite an existing install unless force is explicitly requested.</p>
 <h2 id="use-it">Use it</h2>
 <p>Start Claude Code in the repo, analysis folder, or document workspace where the work should happen:</p>
 <pre><code class="language-text">/efwh &lt;problem in normal language&gt;
@@ -49,8 +56,8 @@ pre{position:relative;overflow:auto;background:var(--bg);border:1px solid var(--
 /efwh --status
 </code></pre>
 <p>No GOAL/config file editing is required. EFWH writes its durable project state under <code>.efwh/</code>.</p>
-<p>For company-managed deployment, see <a href="https://github.com/ZacharyThrasher/evidence-first-work-harness/blob/main/reference/company-rollout.md" target="_blank" rel="noreferrer"><code>docs/company-rollout.md</code></a>.</p>
-<div class="callout"><b>That’s the workflow.</b> Start Claude Code in the workspace where the evidence lives, type <code>/efwh &lt;problem&gt;</code>, and let EFWH orient before it acts.</div><div class="sourceMeta">Source of truth: <a href="https://github.com/ZacharyThrasher/evidence-first-work-harness/blob/main/QUICKSTART.md" target="_blank" rel="noreferrer">QUICKSTART.md ↗</a></div></main><aside class="card toc"><div class="tocTitle">On this page</div><a class="" href="#install-once">Install once</a><a class="sub" href="#windows">Windows</a><a class="sub" href="#macos-linux">macOS / Linux</a><a class="" href="#use-it">Use it</a></aside></div><footer class="footer"><strong>EFWH v2.1</strong><span class="creditTag">Created by Zach Thrasher</span><div class="sourceLine"><a href="./index.html">Overview</a><span>·</span><a href="./quickstart.html">Quickstart</a><span>·</span><a href="./reasoning.html">Reasoning</a><span>·</span><a href="https://github.com/ZacharyThrasher/evidence-first-work-harness" target="_blank" rel="noreferrer">Source ↗</a></div></footer></div>
+<p>For company-managed deployment, see <a href="https://github.com/ZacharyThrasher/evidence-first-work-harness/blob/main/reference/company-rollout.md" target="_blank" rel="noreferrer"><code>reference/company-rollout.md</code></a>.</p>
+<div class="callout"><b>That’s the workflow.</b> Install once, then start Claude Code where the evidence lives and type <code>/efwh &lt;problem&gt;</code>.</div><div class="sourceMeta">Source of truth: <a href="https://github.com/ZacharyThrasher/evidence-first-work-harness/blob/main/QUICKSTART.md" target="_blank" rel="noreferrer">QUICKSTART.md ↗</a></div></main><aside class="card toc"><div class="tocTitle">On this page</div><a href="#install-once">Install once</a><a class="sub" href="#guided-install">Guided install</a><a class="sub" href="#manual-fallback">Manual fallback</a><a href="#use-it">Use it</a></aside></div><footer class="footer"><strong>EFWH v2.2</strong><span class="creditTag">Created by Zach Thrasher</span><div class="sourceLine"><a href="./index.html">Overview</a><span>·</span><a href="./quickstart.html">Quickstart</a><span>·</span><a href="./reasoning.html">Reasoning</a><span>·</span><a href="https://github.com/ZacharyThrasher/evidence-first-work-harness" target="_blank" rel="noreferrer">Source ↗</a></div></footer></div>
 <script>
 document.querySelectorAll('pre').forEach((pre)=>{
   const b=document.createElement('button'); b.className='copyCode'; b.type='button'; b.textContent='Copy';

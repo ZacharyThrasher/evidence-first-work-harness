@@ -2,19 +2,35 @@
 
 ## Install once
 
-### Windows
+### Recommended: let Claude guide the install
+
+Run this from **any directory**:
+
+```text
+claude "Install EFWH from https://github.com/ZacharyThrasher/evidence-first-work-harness for me. Follow the repository's INSTALL.md and guide me through any approvals."
+```
+
+Claude Code starts interactively, reads the repository's [`INSTALL.md`](./INSTALL.md), installs EFWH as a **personal Skill**, and guides you through any approvals. Personal Skills are available across all of your Claude Code projects.
+
+If the personal `skills` directory did not exist when that Claude session started, restart Claude Code once after installation so it can discover the newly created directory.
+
+### Deterministic manual fallback
+
+**Windows / PowerShell**
+
 ```powershell
 git clone --depth 1 https://github.com/ZacharyThrasher/evidence-first-work-harness.git efwh
 & .\efwh\scripts\install.ps1
 ```
 
-### macOS / Linux
+**macOS / Linux**
+
 ```bash
 git clone --depth 1 https://github.com/ZacharyThrasher/evidence-first-work-harness.git efwh
 ./efwh/scripts/install.sh
 ```
 
-The installers copy the canonical Skill into `~/.claude/skills/efwh/` and refuse to overwrite an existing install unless `-Force` / `--force` is supplied.
+The fallback installers use `CLAUDE_CONFIG_DIR` when it is set; otherwise they install to `~/.claude/skills/efwh/`. They refuse to replace an existing install unless `-Force` / `--force` is explicitly supplied.
 
 ## Use it
 
@@ -37,4 +53,4 @@ Optional controls:
 
 No GOAL/config file editing is required. EFWH writes its durable project state under `.efwh/`.
 
-For company-managed deployment, see [`docs/company-rollout.md`](./reference/company-rollout.md).
+For company-managed deployment, see [`reference/company-rollout.md`](./reference/company-rollout.md).

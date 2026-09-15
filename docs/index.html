@@ -93,22 +93,23 @@ h1{font-size:clamp(48px,8vw,86px);line-height:.97;letter-spacing:-.065em;margin:
 </section>
 
 <section class="section" id="install">
-  <div class="sectionHead"><h2>Install once.</h2><p>The repository carries the canonical Skill at <code>.claude/skills/efwh/</code>. Install it once—or let your organization deploy it centrally.</p></div>
+  <div class="sectionHead"><h2>Install once.</h2><p>Paste one command from anywhere. Claude opens interactively, reads EFWH's install contract, and guides you through any approvals.</p></div>
   <div class="card builder" style="margin-bottom:12px">
     <div class="builderForm">
-      <label class="caption">Fastest install</label>
-      <h3 style="margin:0 0 8px;font-size:20px">Open a terminal wherever you keep tools.</h3>
-      <p style="margin:0;color:var(--muted);font-size:13px;line-height:1.55">Clone the audited repository, then run its installer. The installer refuses to overwrite an existing personal install unless you explicitly ask it to.</p>
+      <label class="caption">Recommended · guided install</label>
+      <h3 style="margin:0 0 8px;font-size:20px">Let Claude install the Claude Skill.</h3>
+      <p style="margin:0;color:var(--muted);font-size:13px;line-height:1.55">Copy the command, paste it into any terminal/directory, and follow the normal Claude Code permission prompts. EFWH installs at personal scope so <code>/efwh</code> is available across your projects.</p>
     </div>
     <div class="builderOut">
-      <div class="kicker" id="installOs">Personal install</div>
+      <div class="kicker">Interactive Claude Code install</div>
       <div class="command" id="installCommand" style="min-height:0"></div>
-      <div class="copyRow"><button class="btn" id="copyInstall">Copy install command</button></div>
+      <div class="copyRow"><button class="btn" id="copyInstall">Copy interactive install</button><a class="btn secondary" href="quickstart.html#manual-fallback">Manual fallback</a></div>
+      <p class="tiny">The repository's <code>INSTALL.md</code> is the source of truth and installs the canonical <code>.claude/skills/efwh/</code> tree at personal scope. It preserves normal permissions, handles existing installs safely, honors custom Claude config directories, and verifies the result.</p>
     </div>
   </div>
   <div class="installGrid">
-    <div class="card install"><div class="tag">Personal · recommended</div><h3>Every workspace</h3><p>Install once; use <code>/efwh</code> anywhere.</p><div class="path">~/.claude/skills/efwh/</div></div>
-    <div class="card install"><div class="tag">Project</div><h3>One repo or folder</h3><p>Commit or copy the Skill with the project.</p><div class="path">.claude/skills/efwh/</div></div>
+    <div class="card install"><div class="tag">Personal · recommended</div><h3>Every workspace</h3><p>Install once; use <code>/efwh</code> anywhere.</p><div class="path">&lt;Claude config&gt;/skills/efwh/</div></div>
+    <div class="card install"><div class="tag">Interactive</div><h3>Guided approvals</h3><p>Claude stays open and walks through any network or filesystem permission it needs.</p><div class="path">claude &quot;Install EFWH …&quot;</div></div>
     <div class="card install"><div class="tag">Organization</div><h3>Zero-install rollout</h3><p>Deploy EFWH as a managed Agent Skill so coworkers just type <code>/efwh</code>.</p><div class="path">managed skill → all users</div></div>
   </div>
 </section>
@@ -153,7 +154,7 @@ h1{font-size:clamp(48px,8vw,86px);line-height:.97;letter-spacing:-.065em;margin:
 </section>
 
 <footer class="footer">
-  <strong>EFWH v2.1</strong><span class="creditTag" title="Original framework and implementation">Created by Zach Thrasher</span> · The page is optional. The Skill is the product.
+  <strong>EFWH v2.2</strong><span class="creditTag" title="Original framework and implementation">Created by Zach Thrasher</span> · The page is optional. The Skill is the product.
   <div class="sourceLine"><a href="reasoning.html">Full reasoning</a><span>·</span><a href="quickstart.html">Quickstart</a><span>·</span><span>No external assets. No telemetry.</span></div>
 </footer>
 </div>
@@ -167,7 +168,7 @@ wire('autonomy',v=>auto=v);wire('rigor',v=>rig=v);goal.addEventListener('input',
 document.querySelectorAll('.example').forEach(b=>b.addEventListener('click',()=>{goal.value=b.dataset.goal;goal.focus();render()}));
 async function copy(text,button){try{await navigator.clipboard.writeText(text);let old=button.textContent;button.textContent='Copied';setTimeout(()=>button.textContent=old,1200)}catch(e){let ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove()}}
 $('#copyCommand').addEventListener('click',e=>copy(out.textContent,e.currentTarget));$('#copyResume').addEventListener('click',e=>copy('/efwh --resume',e.currentTarget));
-const isWin=/Win/i.test(navigator.platform||navigator.userAgent);const installWin=String.raw`git clone --depth 1 https://github.com/ZacharyThrasher/evidence-first-work-harness.git efwh; & .\efwh\scripts\install.ps1`;const installUnix=`git clone --depth 1 https://github.com/ZacharyThrasher/evidence-first-work-harness.git efwh && ./efwh/scripts/install.sh`;const installCmd=isWin?installWin:installUnix;$('#installOs').textContent=isWin?'PowerShell · personal install':'Shell · personal install';$('#installCommand').textContent=installCmd;$('#copyInstall').addEventListener('click',e=>copy(installCmd,e.currentTarget));render();
+const installCmd='claude "Install EFWH from https://github.com/ZacharyThrasher/evidence-first-work-harness for me. Follow the repository\'s INSTALL.md and guide me through any approvals."';$('#installCommand').textContent=installCmd;$('#copyInstall').addEventListener('click',e=>copy(installCmd,e.currentTarget));render();
 </script>
 </body>
 </html>
